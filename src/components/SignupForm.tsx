@@ -112,7 +112,7 @@ export const SignupForm = ({ className, ...props }: React.ComponentProps<'div'>)
                             <RadioGroupItem value="user" className="sr-only"/>
                             User
                           </Label>
-                          <Label className="h-[34px] w-full grid place-items-center rounded-s-sm text-muted-foreground hover:text-foreground has-checked:bg-secondary has-checked:text-secondary-foreground">
+                          <Label className="h-[34px] w-full grid place-items-center rounded-e-sm text-muted-foreground hover:text-foreground has-checked:bg-secondary has-checked:text-secondary-foreground">
                             <RadioGroupItem value="admin" className="sr-only"/>
                             Admin
                           </Label>
@@ -166,18 +166,18 @@ export const SignupForm = ({ className, ...props }: React.ComponentProps<'div'>)
                   disabled={isLoading}
                 >
                   {isLoading && <LoaderCircleIcon className="animate-spin" />}
-                  <span>Login</span>
+                  <span>Signup</span>
                 </Button>
               </div>
 
               <div className="mt-4 text-center text-sm">
                 {SIGNUP_FORM.footerText}{" "}
                 <Link
-                  to="/signup"
+                  to="/login"
                   className="underline underline-offset-4 hover:text-primary"
                   viewTransition
                 >
-                  Sign up
+                  Login
                 </Link>
               </div>
             </form>
