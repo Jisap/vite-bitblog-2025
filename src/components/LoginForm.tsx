@@ -50,8 +50,7 @@ export const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) 
   const fetcher = useFetcher();
   const loginResponse = fetcher.data as ActionResponse<AuthResponse>; // ok, err, data -> user, accessToken
 
-  const isSubmitting = fetcher.state === "submitting";
-  const isLoading = fetcher.state === "loading";
+  const isLoading = fetcher.state !== "idle";
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -128,9 +127,39 @@ export const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) 
                     </FormItem>
                   )}
                 />
+
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isLoading}
+                >
+                  {isLoading && <LoaderCircleIcon className="animate-spin" />}
+                  <span>Login</span>
+                </Button>
+              </div>
+
+              <div className="mt-4 text-center text-sm">
+                {LOGIN_FORM.footerText}{" "}
+                <Link 
+                  to="/signup" 
+                  className="underline underline-offset-4 hover:text-primary"
+                  viewTransition  
+                >  
+                  Sign up 
+                </Link>
               </div>
             </form>
           </Form>
+
+          <figure className="bg-muted relative hidden md:block">
+            <img 
+              src={loginBanner} 
+              alt="Login Banner" 
+              width={400}
+              height={400}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </figure>
         </CardContent>
       </Card>
     </div>
