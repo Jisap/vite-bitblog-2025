@@ -21,6 +21,7 @@ import { LoaderCircleIcon } from "lucide-react";
 
 
 import type {ActionResponse, AuthResponse, ValidationError} from "@/types/index"
+import { InputPassword } from "./InputPassword";
 
 type LoginFieldName = "email" | "password";
 
@@ -44,15 +45,94 @@ const formSchema = z.object({
 
 
 export const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) => {
+
+  const navigate = useNavigate();
+  const fetcher = useFetcher();
+  const loginResponse = fetcher.data as ActionResponse<AuthResponse>; // ok, err, data -> user, accessToken
+
+  const isSubmitting = fetcher.state === "submitting";
+  const isLoading = fetcher.state === "loading";
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+  },[])
+
   return (
     <div 
       className={cn(
-        "",
+        "flex flex-col gap-6",
         className
       )}
       {...props}
     >
-      LoginForm
+      <Card className="overflow-hidden p-0">
+        <CardContent className="grid p-0 md:grid-cols-2">
+          <Form {...form}>
+            <form 
+              className="p-6 md:p-8" 
+              onSubmit={form.handleSubmit(onSubmit)} 
+            >
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col items-center text-center">
+                  <h1 className="text-2xl font-semibold">
+                    {LOGIN_FORM.title}
+                  </h1>
+
+                  <p className="text-muted-foreground text-balance">
+                    {LOGIN_FORM.description}
+                  </p>
+                </div>
+
+                <FormField 
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem className="grid gap-3">
+                      <FormLabel>Email</FormLabel>
+
+                      <FormControl>
+                        <Input 
+                          placeholder="john@example.com"
+                          {...field}
+                        />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem className="grid gap-3">
+                      <FormLabel>Password</FormLabel>
+
+                      <FormControl>
+                        <InputPassword
+                          placeholder="Enter your password"
+                          {...field}
+                        />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
     </div>
   )
 }
