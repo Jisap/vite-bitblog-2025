@@ -26,7 +26,7 @@ import type { ActionResponse, AuthResponse, ErrorResponse, ValidationError } fro
 import { InputPassword } from "./InputPassword";
 import { Label } from "./ui/label";
 
-type SignupFieldName = "email" | "password" | "role";
+type SignupField = "email" | "password" | "role";
 
 const SIGNUP_FORM = {
   title: "Create your account",
@@ -64,6 +64,41 @@ export const SignupForm = ({ className, ...props }: React.ComponentProps<'div'>)
       role: "user",
     },
   });
+
+  useEffect(() => {
+    if(!signupResponse) return;
+
+    if(signupResponse.ok) {
+      navigate("/",{ viewTransition: true });
+      return;
+    }
+
+    if(!signupResponse.err) return;
+
+    if(signupResponse.err.code === "AuthorizationError") {
+      const  authorizationError = signupResponse.err as ErrorResponse;
+      toast.error(authorizationError.message, {
+        position: "top-center",
+      });
+    }
+
+    if(signupResponse.err.code === "ValidationError") {
+      const validationErrors = signupResponse.err as ValidationError;  // Aquí, se le dice a TypeScript que trate el objeto err como tu tipo ValidationError, lo que te da autocompletado y seguridad de tipos para acceder a sus propiedades.
+      Object.entries(validationErrors.errors).forEach((value) => {     // El objeto validationErrors tiene una prop errors y recoge los errores de cada campo del formulario
+        const [, validationError] = value;                             // Se itera sobre cada campo y se extrae su error
+        const signupField = validationError.path as SignupField;       // Se extrae el nombre del campo del formulario que fallo
+
+        form.setError(                                                 // Permite que el formulario muestre el error en el campo
+          signupField,                                                 // Le dice a React Hook Form a qué campo pertenece el error (ej. email).  
+          {
+            type: "custom",                                            // Le pasa el mensaje de error exacto que vino del backend (ej. "El email ya está en uso.").
+            message: validationError.msg,
+          },
+          { shouldFocus: true }                                        // Le indica al formulario que debe enfocarse en el campo que tiene el error.
+        )
+      })
+    }
+  },[signupResponse])
 
   const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
     await fetcher.submit(values, {
