@@ -66,7 +66,11 @@ export const SignupForm = ({ className, ...props }: React.ComponentProps<'div'>)
   });
 
   const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    await fetcher.submit(values, {
+      action: "/signup",
+      method: "post",
+      encType: "application/json"
+    });
   }, [])
 
   return (
