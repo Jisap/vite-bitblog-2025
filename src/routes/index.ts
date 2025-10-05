@@ -6,6 +6,7 @@ import signupAction from "@/routes/actions/auth/signup";
 import Home from "@/pages/Home";
 import loginAction from "./actions/auth/login";
 import refreshTokenLoader from "./loaders/refreshToken";
+import { RootLayout } from "@/components/layouts/Roots";
 
 
 const router = createBrowserRouter([
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
+    Component: RootLayout,
     children: [
       {
         index: true,
