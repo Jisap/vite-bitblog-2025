@@ -5,6 +5,7 @@ import { createBrowserRouter } from "react-router";
 import signupAction from "@/routes/actions/auth/signup";
 import Home from "@/pages/Home";
 import loginAction from "./actions/auth/login";
+import refreshTokenLoader from "./loaders/refreshToken";
 
 
 const router = createBrowserRouter([
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/refresh-token",
+    loader: refreshTokenLoader,
   },
   {
     path: "/",

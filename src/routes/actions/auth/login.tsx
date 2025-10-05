@@ -14,7 +14,7 @@ const loginAction: ActionFunction = async ({ request }) => {
     });
 
     const responseData = response.data as AuthResponse;
-    console.log(responseData);
+    //console.log(responseData);
 
     localStorage.setItem("accessToken", responseData.accessToken);
     localStorage.setItem("user", JSON.stringify(responseData.user));
