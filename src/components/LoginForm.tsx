@@ -60,9 +60,41 @@ export const LoginForm = ({ className, ...props }: React.ComponentProps<'div'>) 
     },
   });
 
+  useEffect(() => {
+    if (!loginResponse) return;
+
+    if (loginResponse.ok) {
+      navigate("/", { viewTransition: true });
+      return;
+    }
+
+    if (!loginResponse.err) return;
+
+    if (loginResponse.err.code === "ValidationError") {
+      const validationErrors = loginResponse.err as ValidationError;   // Aquí, se le dice a TypeScript que trate el objeto err como tu tipo ValidationError, lo que te da autocompletado y seguridad de tipos para acceder a sus propiedades.
+      Object.entries(validationErrors.errors).forEach((value) => {     // El objeto validationErrors tiene una prop errors y recoge los errores de cada campo del formulario
+        const [, validationError] = value;                             // Se itera sobre cada campo y se extrae su error
+        const loginField = validationError.path as LoginFieldName;     // Se extrae el nombre del campo del formulario que fallo
+
+        form.setError(                                                 // Permite que el formulario muestre el error en el campo
+          loginField,                                                  // Le dice a React Hook Form a qué campo pertenece el error (ej. email).  
+          {
+            type: "custom",                                            // Le pasa el mensaje de error exacto que vino del backend (ej. "El email ya está en uso.").
+            message: validationError.msg,
+          },
+          { shouldFocus: true }                                        // Le indica al formulario que debe enfocarse en el campo que tiene el error.
+        )
+      })
+    }
+  }, [loginResponse])
+
   const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-  },[])
+    await fetcher.submit(values, {
+      action: "/login",
+      method: "post",
+      encType: "application/json"
+    })
+  },[]);
 
   return (
     <div 

@@ -1,13 +1,17 @@
 import { Login } from "@/pages/auth/Login";
 import SignUp from "@/pages/auth/SignUp";
 import { createBrowserRouter } from "react-router";
+
 import signupAction from "@/routes/actions/auth/signup";
+import Home from "@/pages/Home";
+import loginAction from "./actions/auth/login";
 
 
 const router = createBrowserRouter([
   {
     path: "/login",
     Component: Login,
+    action: loginAction
   },
   {
     path: "/signup",
@@ -22,6 +26,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        Component: Home,
       },
       {
         path: "blogs"
