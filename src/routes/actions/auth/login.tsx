@@ -35,7 +35,6 @@ const loginAction: ActionFunction = async ({ request }) => {
     throw error;
   }
 
-  return null;
 }
 
 export default loginAction

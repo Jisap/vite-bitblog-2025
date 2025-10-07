@@ -248,7 +248,11 @@ const PasswordSettingsForm = () => {
   })
 
   const onSubmit = useCallback(async (values: z.infer<typeof passwordFormSchema>) => {
-    console.log(values);
+    await fetcher.submit(values, {
+      action: "/settings",
+      method: "post",
+      encType: "application/json"
+    });
   },[])
 
   return (
@@ -327,7 +331,7 @@ const PasswordSettingsForm = () => {
             disabled={loading}
           >
             {loading && <Loader2Icon className="animate-spin" />}
-            {loading ? "Saving..." : "Save"}
+            {loading ? "Updating..." : "Update password"}
           </Button>
         </div>
       </form>

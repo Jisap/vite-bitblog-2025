@@ -7,6 +7,7 @@ import Home from "@/pages/Home";
 import loginAction from "./actions/auth/login";
 import refreshTokenLoader from "./loaders/refreshToken";
 import { RootLayout } from "@/components/layouts/Roots";
+import settingsAction from "./actions/user/settings";
 
 
 const router = createBrowserRouter([
@@ -65,6 +66,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/settings",
+    action: settingsAction
   }
 ]);
 
