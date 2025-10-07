@@ -5,6 +5,7 @@ import { useFetcher } from "react-router";
 import z from "zod";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -32,9 +33,9 @@ import {
 import { useUser } from "@/hooks/useUser";
 import { AtSignIcon, Loader2Icon, MailIcon } from "lucide-react";
 
-
 import type { DialogProps } from "@radix-ui/react-dialog";
 import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
 
 
 const profileSchema = z.object({
@@ -71,7 +72,7 @@ const ProfileSettingsForm = () => {
 
   const onSubmit = useCallback(async (values: z.infer<typeof profileSchema>) => {
     console.log(values);
-  })
+  },[])
 
   return (
     <Form {...form}>
@@ -147,7 +148,7 @@ const ProfileSettingsForm = () => {
                     className="absolute top-1/2 left-3 -translate-y-1/2 pointer-events-none text-muted-foreground"
                   />
 
-                  <FormControl defaultValue={user?.email}>
+                  <FormControl>
                     <Input 
                       type="email" 
                       placeholder="john@example.com" 
@@ -165,7 +166,7 @@ const ProfileSettingsForm = () => {
 
         <Separator className="my-5" />
 
-        {/* Email */}
+        {/* Username */}
         <FormField
           control={form.control}
           name="username"
@@ -179,7 +180,7 @@ const ProfileSettingsForm = () => {
                     className="absolute top-1/2 left-3 -translate-y-1/2 pointer-events-none text-muted-foreground"
                   />
 
-                  <FormControl defaultValue={user?.username}>
+                  <FormControl>
                     <Input
                       type="text"
                       placeholder="johndoe"
@@ -194,6 +195,26 @@ const ProfileSettingsForm = () => {
             </FormItem>
           )}
         />
+
+        <Separator className="my-5" />
+
+        {/* Buttons */}
+        <div className="flex justify-end gap-3">
+          <Button
+            variant="outline"
+            asChild
+          >
+            <DialogClose>Cancel</DialogClose>
+          </Button>
+
+          <Button
+            type="submit"
+            disabled={loading}
+          >
+            {loading && <Loader2Icon className="animate-spin" />}
+            {loading ? "Saving..." : "Save"}
+          </Button>
+        </div>
       </form>
     </Form>
   )
@@ -204,19 +225,113 @@ const passwordFormSchema = z.object({
     .string()
     .min(1, { message: "Password is required" })
     .min(8, { message: "Password must be at least 8 characters" }),
-  confirm_Password: z
+  confirm_password: z
     .string()
 })
-.refine((data) => data.password === data.confirm_Password, {
+.refine((data) => data.password === data.confirm_password, {
   message: "Passwords do not match",
   path: ["confirm_Password"],
 });
 
 const PasswordSettingsForm = () => {
+
+  const fetcher = useFetcher();
+
+  const loading = fetcher.state !== "idle" && Boolean(fetcher.formData)
+
+  const form = useForm<z.infer<typeof passwordFormSchema>>({
+    resolver: zodResolver(passwordFormSchema),
+    defaultValues: {
+      password: "",
+      confirm_password: ""
+    }
+  })
+
+  const onSubmit = useCallback(async (values: z.infer<typeof passwordFormSchema>) => {
+    console.log(values);
+  },[])
+
   return (
-    <div>
-      Password Settings Form
-    </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        {/* Encabezado */}
+        <div>
+          <h3 className="font-semibold text-lg">Password</h3>
+
+          <p className="text-sm text-muted-foreground">
+            Please enter your current password to change your password.
+          </p>
+
+          <Separator className="my-5" />
+        </div>
+
+        {/* Password */}
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="grid gap-2 items-start lg:grid-cols-[1fr_2fr]">
+              <FormLabel>New password</FormLabel>
+              
+              <div className="space-y-2">
+                <FormControl>
+                  <InputPassword
+                    placeholder="******"
+                    {...field}
+                  />
+                </FormControl>
+
+                <FormMessage />  
+              </div>
+            </FormItem>
+          )}
+        />
+
+        <Separator className="my-5" />
+
+        {/* ConfirmPassword */}
+        <FormField
+          control={form.control}
+          name="confirm_password"
+          render={({ field }) => (
+            <FormItem className="grid gap-2 items-start lg:grid-cols-[1fr_2fr]">
+              <FormLabel>Confirm new password</FormLabel>
+
+              <div className="space-y-2">
+                <FormControl>
+                  <InputPassword
+                    placeholder="******"
+                    {...field}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </div>
+            </FormItem>
+          )}
+        />
+
+        <Separator className="my-5" />
+
+        {/* Buttons */}
+        <div className="flex justify-end gap-3">
+          <Button
+            variant="outline"
+            asChild
+          >
+            <DialogClose>Cancel</DialogClose>
+          </Button>
+
+          <Button
+            type="submit"
+            disabled={loading}
+          >
+            {loading && <Loader2Icon className="animate-spin" />}
+            {loading ? "Saving..." : "Save"}
+          </Button>
+        </div>
+      </form>
+    </Form>
   )
 }
 

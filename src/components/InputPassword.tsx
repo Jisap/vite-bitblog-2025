@@ -31,7 +31,7 @@ export const InputPassword: React.FC<InputPasswordProps> = ({ className, ...prop
         type="button"
         pressed={showPassword}
         onPressedChange={setShowPassword}
-        className="absolute top-1/2 -translate-y-1/2 rigth-0.5 size-8"
+        className="absolute top-1/2 -translate-y-1/2 right-1 size-8"
       >
         {showPassword ? <EyeClosedIcon /> : <EyeIcon />}
       </Toggle>
