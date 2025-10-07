@@ -8,6 +8,7 @@ import { Logo } from "./Logo"
 import { Navbar } from "./Navbar"
 import { useUser } from "@/hooks/useUser"
 import { ThemeToggle } from "./ThemeToggle"
+import { UserMenu } from "./UserMenu"
 
 
 export const Header = ( { className, ...props }: React.ComponentProps<'header'>) => {
@@ -60,6 +61,8 @@ export const Header = ( { className, ...props }: React.ComponentProps<'header'>)
 
         <div className="flex items-center gap-1 ms-auto">
           <ThemeToggle />
+
+          <UserMenu />
         </div>
       </div>
     </header>
