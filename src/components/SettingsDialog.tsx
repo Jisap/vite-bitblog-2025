@@ -96,35 +96,39 @@ const ProfileSettingsForm = () => {
             Name
           </div>
 
-            <div className="grid max-md:gap-y-4 gap-x-6 md:grid-cols-2">
-              <FormField 
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="md:sr-only">First Name</FormLabel>
+          <div className="grid max-md:gap-y-4 gap-x-6 md:grid-cols-2">
+            <FormField 
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="md:sr-only">First Name</FormLabel>
 
-                    <FormControl>
-                      <Input type="text" placeholder="John" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
+                  <FormControl>
+                    <Input type="text" placeholder="John" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="md:sr-only">Last Name</FormLabel>
+
+                  <FormControl>
+                    <Input type="text" placeholder="Doe" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
               />
-
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="md:sr-only">Last Name</FormLabel>
-
-                    <FormControl>
-                      <Input type="text" placeholder="Doe" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-                />
-            </div>
+          </div>
         </div>
 
         <Separator className="my-5" />
@@ -136,26 +140,60 @@ const ProfileSettingsForm = () => {
           render={({ field }) => (
             <FormItem className="grid gap-2 items-start lg:grid-cols-[1fr_2fr]">
               <FormLabel>Email address</FormLabel>
-                <div className="space-y-2">
-                  <div className="relative">
-                    <MailIcon 
-                      size={20}
-                      className="absolute top-1/2 left-3 -translate-y-1/2 pointer-events-none text-muted-foreground"
-                    />
+              <div className="space-y-2">
+                <div className="relative">
+                  <MailIcon 
+                    size={20}
+                    className="absolute top-1/2 left-3 -translate-y-1/2 pointer-events-none text-muted-foreground"
+                  />
 
-                    <FormControl defaultValue={user?.email}>
-                      <Input 
-                        type="email" 
-                        placeholder="john@example.com" 
-                        className="ps-10"
-                        {...field} 
-                      />
-                    </FormControl>
-                    </div>
-                  </div>
-                </FormItem>
+                  <FormControl defaultValue={user?.email}>
+                    <Input 
+                      type="email" 
+                      placeholder="john@example.com" 
+                      className="ps-10"
+                      {...field} 
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </div>
+              </div>
+            </FormItem>
           )}
         /> 
+
+        <Separator className="my-5" />
+
+        {/* Email */}
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem className="grid gap-2 items-start lg:grid-cols-[1fr_2fr]">
+              <FormLabel>Username</FormLabel>
+              <div className="space-y-2">
+                <div className="relative">
+                  <AtSignIcon
+                    size={20}
+                    className="absolute top-1/2 left-3 -translate-y-1/2 pointer-events-none text-muted-foreground"
+                  />
+
+                  <FormControl defaultValue={user?.username}>
+                    <Input
+                      type="text"
+                      placeholder="johndoe"
+                      className="ps-10"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </div>
+              </div>
+            </FormItem>
+          )}
+        />
       </form>
     </Form>
   )
