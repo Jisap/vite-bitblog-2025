@@ -19,7 +19,6 @@ import { SettingsDialog } from "./SettingsDialog";
 export const UserMenu = () => {
 
   const user = useUser();
-  console.log(user);
 
   const logout = useLogout();
 
@@ -69,7 +68,7 @@ export const UserMenu = () => {
             )}
 
             <SettingsDialog>
-              <DropdownMenuItem>
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                 <SettingsIcon />
                 Settings
               </DropdownMenuItem>

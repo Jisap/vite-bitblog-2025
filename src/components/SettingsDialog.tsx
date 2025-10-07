@@ -50,11 +50,114 @@ const profileSchema = z.object({
   username: z.string().max(20, "Username must be less than 20 characters")
 });
 
-const ProfileSettings = () => {
+const ProfileSettingsForm = () => {
+
+  const fetcher = useFetcher();
+  const user = useUser();
+
+  const loading = fetcher.state !== "idle" && Boolean(fetcher.formData)
+
+  const defaultValues = {
+    firstName: "",
+    lastName: "",
+    email: user?.email,
+    username: user?.username
+  }
+
+  const form = useForm<z.infer<typeof profileSchema>>({
+    resolver: zodResolver(profileSchema),
+    defaultValues
+  })
+
+  const onSubmit = useCallback(async (values: z.infer<typeof profileSchema>) => {
+    console.log(values);
+  })
+
   return (
-    <div>
-      Profile Settings Form
-    </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        {/* Encabezado */}
+        <div>
+          <h3 className="font-semibold text-lg">Personal Info</h3>
+
+          <p className="text-sm text-muted-foreground">
+            Update your photo and personal details here.
+          </p>
+
+          <Separator className="my-5"/>
+        </div>
+
+        {/* First Name & Last Name */}
+        <div className="grid gap-4 items-start lg:grid-cols-[1fr_2fr]">
+          <div className={cn(
+            "text-sm leading-none font-medium",
+            (form.formState.errors.firstName || form.formState.errors.lastName) && "test-destructive"
+          )}>
+            Name
+          </div>
+
+            <div className="grid max-md:gap-y-4 gap-x-6 md:grid-cols-2">
+              <FormField 
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="md:sr-only">First Name</FormLabel>
+
+                    <FormControl>
+                      <Input type="text" placeholder="John" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="md:sr-only">Last Name</FormLabel>
+
+                    <FormControl>
+                      <Input type="text" placeholder="Doe" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+                />
+            </div>
+        </div>
+
+        <Separator className="my-5" />
+
+        {/* Email */}
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="grid gap-2 items-start lg:grid-cols-[1fr_2fr]">
+              <FormLabel>Email address</FormLabel>
+                <div className="space-y-2">
+                  <div className="relative">
+                    <MailIcon 
+                      size={20}
+                      className="absolute top-1/2 left-3 -translate-y-1/2 pointer-events-none text-muted-foreground"
+                    />
+
+                    <FormControl defaultValue={user?.email}>
+                      <Input 
+                        type="email" 
+                        placeholder="john@example.com" 
+                        className="ps-10"
+                        {...field} 
+                      />
+                    </FormControl>
+                    </div>
+                  </div>
+                </FormItem>
+          )}
+        /> 
+      </form>
+    </Form>
   )
 }
 
@@ -82,9 +185,35 @@ const PasswordSettingsForm = () => {
 
 export const SettingsDialog = ({ children, ...props }: React.PropsWithChildren<DialogProps>) => {
   return (
-    <div>
-      Settings Dialog
-    </div>
+    <Dialog {...props}>
+      <DialogTrigger asChild>
+        {children}
+      </DialogTrigger>
+
+      <DialogContent className="md:min-w-[80vw] xl:min-w-4xl">
+        <DialogHeader>
+          <DialogTitle className="text-2xl">Settings</DialogTitle>
+        </DialogHeader>
+
+        <Tabs defaultValue="profile" className="gap-5">
+          <TabsList className="w-full">
+            <TabsTrigger value="profile">
+              Profile
+            </TabsTrigger>
+            <TabsTrigger value="password">
+              password
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="profile">
+            <ProfileSettingsForm />
+          </TabsContent>
+          <TabsContent value="password">
+            <PasswordSettingsForm />
+          </TabsContent>
+        </Tabs>
+      </DialogContent>
+    </Dialog>
   )
 }
   
