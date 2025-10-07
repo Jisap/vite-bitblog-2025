@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useFetcher } from "react-router";
 import z from "zod";
@@ -36,27 +36,42 @@ import { AtSignIcon, Loader2Icon, MailIcon } from "lucide-react";
 import type { DialogProps } from "@radix-ui/react-dialog";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import type { ActionResponse } from "@/types";
+import { toast } from "sonner";
 
 
 const profileSchema = z.object({
   firstName: z
     .string()
-    .max(20, "First name must be than 20 characters" ),
+    .max(20, "First name must be less than 20 characters" )
+    .optional(),
   lastName: z
     .string()
-    .max(20, "Last name must be than 20 characters" ),
+    .max(20, "Last name must be less than 20 characters" )
+    .optional(),
   email: z
     .email({ message: "Invalid email address" })
-    .max(50, "Email must be less than 50 characters"),
-  username: z.string().max(20, "Username must be less than 20 characters")
+    .max(50, "Email must be less than 50 characters")
+    .optional(),
+  username: z
+    .string()
+    .max(20, "Username must be less than 20 characters")
+    .optional()
 });
 
 const ProfileSettingsForm = () => {
 
   const fetcher = useFetcher();
   const user = useUser();
+  const data = fetcher.data as ActionResponse;
+console.log(data);
+  const loading = fetcher.state !== "idle";
 
-  const loading = fetcher.state !== "idle" && Boolean(fetcher.formData)
+  useEffect(() => {
+    if (data && data.ok) {
+      toast.success("Profile has been updated successfully");
+    }
+  }, [data])
 
   const defaultValues = {
     firstName: "",
@@ -71,7 +86,11 @@ const ProfileSettingsForm = () => {
   })
 
   const onSubmit = useCallback(async (values: z.infer<typeof profileSchema>) => {
-    console.log(values);
+    await fetcher.submit(values, {
+      action: "/settings",
+      method: "put",
+      encType: "application/json"
+    });
   },[])
 
   return (
@@ -236,8 +255,14 @@ const passwordFormSchema = z.object({
 const PasswordSettingsForm = () => {
 
   const fetcher = useFetcher();
+  const loading = fetcher.state !== "idle";
+  const data = fetcher.data as ActionResponse;
 
-  const loading = fetcher.state !== "idle" && Boolean(fetcher.formData)
+  useEffect(() => {
+    if(data && data.ok){
+      toast.success("Password updated successfully");
+    }
+  },[data])
 
   const form = useForm<z.infer<typeof passwordFormSchema>>({
     resolver: zodResolver(passwordFormSchema),
@@ -250,7 +275,7 @@ const PasswordSettingsForm = () => {
   const onSubmit = useCallback(async (values: z.infer<typeof passwordFormSchema>) => {
     await fetcher.submit(values, {
       action: "/settings",
-      method: "post",
+      method: "put",
       encType: "application/json"
     });
   },[])
