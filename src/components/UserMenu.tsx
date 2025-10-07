@@ -13,6 +13,7 @@ import { useUser } from "@/hooks/useUser";
 import { LayoutDashboardIcon, LogOutIcon, SettingsIcon } from "lucide-react";
 import Avatar from "react-avatar"
 import { useLogout } from "@/hooks/useLogout";
+import { SettingsDialog } from "./SettingsDialog";
 
 
 export const UserMenu = () => {
@@ -67,10 +68,12 @@ export const UserMenu = () => {
               </DropdownMenuItem>
             )}
 
-            <DropdownMenuItem>
-              <SettingsIcon />
-              Settings
-            </DropdownMenuItem>
+            <SettingsDialog>
+              <DropdownMenuItem>
+                <SettingsIcon />
+                Settings
+              </DropdownMenuItem>
+            </SettingsDialog>
 
             <DropdownMenuItem onClick={logout}>
               <LogOutIcon />
