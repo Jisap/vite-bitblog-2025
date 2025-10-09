@@ -3,6 +3,7 @@ import { motion, stagger } from "motion/react"
 import { useLoaderData } from "react-router"
 import type { Variants } from "motion/react";
 import type { HomeLoaderResponse } from '../../routes/loaders/user/homeLoader';
+import { BlogCard } from "../BlogCard";
 
 
 
@@ -47,6 +48,35 @@ export const RecentBlogs = ({ className, ...props}: React.ComponentProps<"sectio
           Recent blog posts
         </motion.h2>
 
+        <motion.ul
+          className="grid gap-4 lg:grid-cols-2 lg:grid-rows-3"
+          initial="from"
+          whileInView="to"
+          viewport={{ once: true }}
+          variants={listVariant}
+        >
+          {
+            recentBlog.blogs.map(({ slug, banner, title, content, author, publishedAt }, index ) => (
+              <motion.li
+                key={slug}
+                variants={itemVariant}
+                className={cn(index === 0 && "lg:row-span-3")}
+              >
+                <BlogCard
+                  bannerUrl={banner.url}
+                  bannerWidth={banner.width}
+                  bannerHeight={banner.height}
+                  title={title}
+                  content={content}
+                  slug={slug}
+                  authorName={`${author.firstName} ${author.lastName}`}
+                  publishedAt={publishedAt}
+                  size={index > 0 ? "sm" : "default"}
+                />
+              </motion.li>
+            ))
+          }
+        </motion.ul>
       </div>
     </section>
   )
