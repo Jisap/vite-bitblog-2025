@@ -8,7 +8,7 @@ import loginAction from "./actions/auth/login";
 import refreshTokenLoader from "./loaders/refreshToken";
 import { RootLayout } from "@/components/layouts/Roots";
 import settingsAction from "./actions/user/settings";
-import homeLoader from "./loaders/home/homeLoader";
+import homeLoader from "./loaders/user/homeLoader";
 
 
 const router = createBrowserRouter([
