@@ -30,6 +30,7 @@ const itemVariant: Variants = {
 export const RecentBlogs = ({ className, ...props}: React.ComponentProps<"section">) => {
   
   const { recentBlog } = useLoaderData<HomeLoaderResponse>();
+  console.log("recentblog",recentBlog);
   
   return (
     <section className={cn("section", className)} {...props}>
@@ -69,7 +70,7 @@ export const RecentBlogs = ({ className, ...props}: React.ComponentProps<"sectio
                   title={title}
                   content={content}
                   slug={slug}
-                  authorName={`${author.firstName} ${author.lastName}`}
+                  authorName={author.firstName && author.lastName ? `${author.firstName} ${author.lastName}` : author.username}
                   publishedAt={publishedAt}
                   size={index > 0 ? "sm" : "default"}
                 />
@@ -81,4 +82,3 @@ export const RecentBlogs = ({ className, ...props}: React.ComponentProps<"sectio
     </section>
   )
 }
-
