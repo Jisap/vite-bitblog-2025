@@ -6,8 +6,8 @@ import type { Variants } from "motion/react";
 import type React from "react";
 
 const HERO = {
-  headline: "Inside Design: Stories and interviews",
-  text: "subscribe to learn abour new products features, the latest in technology, and updates."
+  headline: "Mastering the Craft, One Bit at a Time",
+  text: "This blog is built om a simple principle: the best way to understand a topic is to explain it. Follow along through a growing library if articles that brak down the complexities of modern web development"
 } as const;
 
 const containerVariants: Variants = {
@@ -49,11 +49,28 @@ export const Hero = ({ className, ...props }: React.ComponentProps<"section">) =
         </motion.h1>
 
         <motion.p
-          className="text-center text-muted-foreground mt-5 mb-8 md:text-xl"
+          className="text-center text-muted-foreground text-balance mt-5 mb-8 md:text-xl"
           variants={childVariants}
         >
           {HERO.text}
         </motion.p>
+
+        <motion.div
+          className="max-w-md mx-auto flex items-center gap-2"
+          variants={childVariants}
+        >
+          <Input 
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            autoComplete="email"
+            aria-label="Enter your email"
+          />
+
+          <Button>
+            Subscribe
+          </Button>
+        </motion.div>
       </motion.div>
     </section>
   )
