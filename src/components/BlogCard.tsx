@@ -42,7 +42,12 @@ export const BlogCard = ({
   ...props
 }: BlogCardProps) => {
 
-  console.log("authorName", authorName)
+  const editor = new Editor({
+    extensions: [StarterKit],
+    content,
+    editable: false,
+    autofocus: false,
+  })
 
   return (
     <Card className={cn(
@@ -92,17 +97,34 @@ export const BlogCard = ({
           >
             {title}
           </CardTitle>
-
-          <CardDescription
-            className={cn(
-              "line-clamp-2 text-balance",
-              size === "sm" && "@max-2xs:hidden"
-            )}
-          >
-            {content}
-          </CardDescription>
         </Link>
+
+        <CardDescription
+          className={cn(
+            "line-clamp-2 text-balance",
+            size === "sm" && "@max-2xs:hidden"
+          )}
+        >
+          {editor.getText()}
+        </CardDescription>
       </CardHeader>
+
+      <CardContent className="px-2">
+        <Link to={`/blogs/${slug}`} viewTransition>
+          <AspectRatio
+            ratio={21 / 9}
+            className="rounded-lg overflow-hidden"
+          >
+            <img 
+              src={bannerUrl}
+              width={bannerWidth}
+              height={bannerHeight}
+              alt={title}
+              className="w-full h-full object-cover"
+            />
+          </AspectRatio>
+        </Link>
+      </CardContent>
     </Card>
   )
 }
