@@ -3,7 +3,7 @@ import SignUp from "@/pages/auth/SignUp";
 import { createBrowserRouter } from "react-router";
 
 import signupAction from "@/routes/actions/auth/signup";
-import Home from "@/pages/Home";
+import { Home } from "@/pages/auth/Home";
 import loginAction from "./actions/auth/login";
 import refreshTokenLoader from "./loaders/refreshToken";
 import { RootLayout } from "@/components/layouts/Roots";
