@@ -60,6 +60,10 @@ export const Footer = ({ className, ...props}: React.ComponentProps<"footer">) =
                     </a>
                   </Button>
                 </TooltipTrigger>
+
+                <TooltipContent>
+                  {label}
+                </TooltipContent>
               </Tooltip>
             </li>
           ))}
