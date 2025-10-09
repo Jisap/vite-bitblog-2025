@@ -63,6 +63,16 @@ export const Header = ( { className, ...props }: React.ComponentProps<'header'>)
           <ThemeToggle />
 
           <UserMenu />
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            className="md:hidden"
+          >
+            {mobileMenuOpen ? <XIcon /> : <MenuIcon />}
+          </Button>
         </div>
       </div>
     </header>

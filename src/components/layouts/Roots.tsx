@@ -11,6 +11,9 @@ export const RootLayout = () => {
     <div className="flex flex-col min-g-dvh">
       <Loading className="z-40" />
       <Header />
+      <main className="grow flex flex-col">
+        <Outlet />
+      </main>
     </div>
   )
 }
