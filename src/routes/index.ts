@@ -3,11 +3,12 @@ import SignUp from "@/pages/auth/SignUp";
 import { createBrowserRouter } from "react-router";
 
 import signupAction from "@/routes/actions/auth/signup";
-import { Home } from "@/pages/auth/Home";
+import { Home } from "@/pages/user/Home";
 import loginAction from "./actions/auth/login";
 import refreshTokenLoader from "./loaders/refreshToken";
 import { RootLayout } from "@/components/layouts/Roots";
 import settingsAction from "./actions/user/settings";
+import homeLoader from "./loaders/home/homeLoader";
 
 
 const router = createBrowserRouter([
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+        loader: homeLoader,
       },
       {
         path: "blogs"
