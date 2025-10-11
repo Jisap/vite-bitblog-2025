@@ -11,6 +11,8 @@ import settingsAction from "./actions/user/settings";
 import homeLoader from "./loaders/user/homeLoader";
 import { Blogs } from "@/pages/user/Blogs";
 import userBlogLoader from "./loaders/user/userBlogLoader";
+import { BlogDetail } from "@/pages/user/BlogDetail";
+import blogDetailLoader from "./loaders/user/BlogDetailLoader";
 
 
 const router = createBrowserRouter([
@@ -44,6 +46,8 @@ const router = createBrowserRouter([
       },
       {
         path: "blogs/:slug",
+        Component: BlogDetail,
+        loader: blogDetailLoader
       }    
     ]
   },

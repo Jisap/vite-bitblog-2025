@@ -62,7 +62,7 @@ export const Blogs = ({ className, ...props }: React.ComponentProps<"section">) 
             variants={listVariant}
           >
             {
-              blogs.map(({ slug, banner, title, content, author, publishedAt }, index) => (
+              blogs.map(({ slug, banner, title, content, author, publishedAt }) => (
                 <motion.li
                   key={slug}
                   variants={itemVariant}
