@@ -37,7 +37,7 @@ export const BlogCard = ({
   slug,
   authorName,
   publishedAt,
-  size = "default",
+  size = "default", // Valor por defecto
   className,
   ...props
 }: BlogCardProps) => {
@@ -52,7 +52,9 @@ export const BlogCard = ({
   return (
     <Card className={cn(
       "relative group pt-2 h-full @container",
+      // Si size es "default", aplica un layout de columna invertida (imagen arriba, texto abajo)
       size === "default" && "flex flex-col-reverse justify-end",
+      // Si size es "sm", aplica un layout de grid horizontal (imagen y texto lado a lado)
       size === "sm" && "py-2 grid grid-cols-[1fr_1.15fr] gap-0 items-center",
       className
     )}
@@ -61,6 +63,7 @@ export const BlogCard = ({
       <CardHeader
         className={cn(
           "gap-2",
+          // Para el tamaño "sm", el texto va a la derecha de la imagen
           size === "sm" && "content-center order-1 ps-4 py-3"
         )}
       >
@@ -92,7 +95,8 @@ export const BlogCard = ({
             // Cuando el contenedor (el Card) es más ancho que 28rem, el tamaño del título aumenta a `text-2xl`.
             // Por defecto, es `text-xl`.
             className={cn("underline-offset-4 hover:underline leading-tight line-clamp-2",
-            size === "default" && "text-xl @md:text-2xl"
+              // Para el tamaño "default", el título es más grande
+              size === "default" && "text-xl @md:text-2xl"
             )}
           >
             {title}

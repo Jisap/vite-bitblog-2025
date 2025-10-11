@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils"
 import { motion, stagger } from "motion/react"
-import { useLoaderData } from "react-router"
+import { useLoaderData, Link } from "react-router"
 import type { Variants } from "motion/react";
 import type { HomeLoaderResponse } from '../../routes/loaders/user/homeLoader';
 import { BlogCard } from "../BlogCard";
-
+import { Button } from "../ui/button";
 
 
 
@@ -27,18 +27,18 @@ const itemVariant: Variants = {
   }
 }
 
-export const RecentBlogs = ({ className, ...props}: React.ComponentProps<"section">) => {
-  
-  const { recentBlog } = useLoaderData<HomeLoaderResponse>();
-  console.log("recentblog",recentBlog);
-  
+export const AllBlogs = ({ className, ...props }: React.ComponentProps<"section">) => {
+
+  const { allBlog } = useLoaderData<HomeLoaderResponse>();
+  console.log("recentblog", allBlog);
+
   return (
     <section className={cn("section", className)} {...props}>
       <div className="container">
         <motion.h2
           className="section-title"
           initial={{ opacity: 0 }}
-          animate={{ 
+          animate={{
             opacity: 1,
             transition: {
               duration: 0.5,
@@ -46,23 +46,21 @@ export const RecentBlogs = ({ className, ...props}: React.ComponentProps<"sectio
             },
           }}
         >
-          Recent blog posts
+          All blog posts
         </motion.h2>
 
         <motion.ul
-          className="grid gap-4 lg:grid-cols-2 lg:grid-rows-3"
+          className="grid lg:grid-cols-2 xl:grid-cols-3 gap-4"
           initial="from"
           whileInView="to"
           viewport={{ once: true }}
           variants={listVariant}
         >
           {
-            recentBlog.blogs.map(({ slug, banner, title, content, author, publishedAt }, index ) => (
+            allBlog.blogs.map(({ slug, banner, title, content, author, publishedAt }, index) => (
               <motion.li
                 key={slug}
                 variants={itemVariant}
-                // La primera tarjeta (index === 0) es más grande y ocupa 3 filas en el grid de LG
-                className={cn(index === 0 && "lg:row-span-3")}
               >
                 <BlogCard
                   bannerUrl={banner.url}
@@ -73,14 +71,34 @@ export const RecentBlogs = ({ className, ...props}: React.ComponentProps<"sectio
                   slug={slug}
                   authorName={author.firstName && author.lastName ? `${author.firstName} ${author.lastName}` : author.username}
                   publishedAt={publishedAt}
-                  // La primera tarjeta es "default", las demás son "sm"
-                  size={index > 0 ? "sm" : "default"}
                 />
               </motion.li>
             ))
           }
         </motion.ul>
+
+        <motion.div 
+          className="mt-8 flex justify-center md:mt-10"
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: 1,
+            transition: {
+              duration: 0.5,
+              ease: "backInOut",
+            },
+          }}
+        >
+          <Button
+            asChild
+            size="lg"
+          >
+            <Link to="/blogs" viewTransition>
+              See all blogs
+            </Link>
+          </Button>
+        </motion.div>
       </div>
     </section>
   )
 }
+
