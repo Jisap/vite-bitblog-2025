@@ -31,7 +31,7 @@ interface ShareDropdownProps extends DropdownMenuProps {
 export const BlogDetail = () => {
 
   const navigate = useNavigate();
-  const { blog } = useLoaderData() as {blog: Blog};
+  const { blog } = useLoaderData() as { blog: Blog };
   const editor = useEditor({
     extensions: [StarterKit],
     content: blog.content,
@@ -55,53 +55,59 @@ export const BlogDetail = () => {
           {blog.title}
         </h1>
 
-        <div className="flex items-centergap-3 my-8">
+        <div className="flex items-center gap-3 my-8">
           <div className="flex items-center gap-3">
             <Avatar email={blog.author.email} size="32" round />
 
             <span>
               {getUsername(blog.author)}
             </span>
+          </div>
 
-            {/* Sobreescribimos los valores por defecto de data-[orientation=vertical] para que el separador sea un círculo */}	
-            <Separator 
-              orientation="vertical" 
-              className="data-[orientation=vertical]:h-1 data-[orientation=vertical]:w-1 rounded-full" 
-            />
+          {/* Sobreescribimos los valores por defecto de data-[orientation=vertical] para que el separador sea un círculo */}
+          <Separator
+            orientation="vertical"
+            className="data-[orientation=vertical]:h-1 data-[orientation=vertical]:w-1 rounded-full"
+          />
 
-            <div className="text-muted-foreground">
-              {getReadingTime(editor.getText() || "")} min read
-            </div>
+          <div className="text-muted-foreground">
+            {getReadingTime(editor.getText() || "")} min read
+          </div>
 
-            <Separator
-              orientation="vertical"
-              className="data-[orientation=vertical]:h-1 data-[orientation=vertical]:w-1 rounded-full"
-            />
+          <Separator
+            orientation="vertical"
+            className="data-[orientation=vertical]:h-1 data-[orientation=vertical]:w-1 rounded-full"
+          />
 
-            <div className="text-muted-foreground">
-              {new Date(blog.publishedAt).toLocaleString("en-US", {
-                dateStyle: "medium",
-              })}
-            </div>
-
-            <div className="flex items-center gap-2 my-2">
-              <Button variant="ghost">
-                <ThumbsUpIcon />
-                {blog.likesCount}
-              </Button>
-
-              <Button variant="ghost">
-                <MessageSquareIcon />
-                {blog.commentsCount}
-              </Button>
-
-              <Button variant="ghost" className="ms-auto">
-                <ShareIcon />
-                Share
-              </Button>
-            </div>
+          <div className="text-muted-foreground">
+            {new Date(blog.publishedAt).toLocaleString("en-US", {
+              dateStyle: "medium",
+            })}
           </div>
         </div>
+
+        <Separator />
+
+        <div className="flex items-center gap-2 my-2">
+          <Button variant="ghost">
+            <ThumbsUpIcon />
+            {blog.likesCount}
+          </Button>
+
+          <Button variant="ghost">
+            <MessageSquareIcon />
+            {blog.commentsCount}
+          </Button>
+
+          <Button variant="ghost" className="ms-auto">
+            <ShareIcon />
+            Share
+          </Button>
+        </div>
+
+        <Separator />
+
+
       </article>
     </Page>
   )
