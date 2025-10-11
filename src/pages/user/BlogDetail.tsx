@@ -201,6 +201,10 @@ export const BlogDetail = () => {
               />
             </AspectRatio>
         </div>
+
+        <EditorContent 
+          editor={editor}
+        />
       </article>
     </Page>
   )
