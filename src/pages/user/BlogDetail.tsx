@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useCallback, useMemo } from "react";
+import { use, useCallback, useMemo } from "react";
 import Avatar from "react-avatar";
 import { useLoaderData, useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -16,16 +16,94 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuCheckboxItem,
-  DropdownMenuSeparator
+  DropdownMenuSeparator,
+  DropdownMenuSubTrigger
 } from "@/components/ui/dropdown-menu";
-import { ArrowLeftIcon, Facebook, LinkedinIcon, LinkIcon, MessageSquareIcon, ShareIcon, ThumbsUpIcon, TwitterIcon } from "lucide-react";
+import { ArrowLeftIcon, Facebook, LinkedinIcon, LinkIcon, MessageSquareIcon, Share, ShareIcon, ThumbsUpIcon, TwitterIcon } from "lucide-react";
 import type { Blog } from "@/types";
 import type { DropdownMenuProps } from "@radix-ui/react-dropdown-menu"
 import { getReadingTime, getUsername } from "@/lib/utils";
 
+
 interface ShareDropdownProps extends DropdownMenuProps {
   blogTitle: string,
 }
+
+export const ShareDropdown = ({ blogTitle, children, ...props }: ShareDropdownProps) => {
+  
+  const blogUrl = window.location.href;
+  const shareText = 'Just read this insightful article and wanted to share!'
+  
+  const SHARE_LINKS = useMemo(() => {
+    return {
+      x: `https://x.com/intent/post?url=${encodeURIComponent(
+        blogUrl
+      )}&text=${encodeURIComponent(`${shareText} "${blogTitle}"`)}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        blogUrl
+      )}`,
+      linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+        blogUrl
+      )}&title=${encodeURIComponent(blogTitle)}&summary=${encodeURIComponent(
+        shareText
+      )}`,
+    };
+  },[blogTitle, blogUrl])
+
+  const handleCopy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(blogUrl);
+      toast.success("Link copied to clipboard");
+    } catch (error) {
+      toast.error("Failed to copy link");
+      console.log("Error copying link:", error);
+    }
+  }, [blogUrl]);
+
+  const shareOnSocial = useCallback((platformUrl: string) => {  // Abre una nueva pestaña con la red social donde queremos compartir el link a nuestro artículo de blog
+    window.open(platformUrl, "_blank", "noopener,noreferrer");
+  },[]);
+
+  return (
+    <DropdownMenu {...props}>
+      <DropdownMenuTrigger asChild>
+        {children}
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent className="min-w-[240px]">
+        <DropdownMenuItem onSelect={handleCopy}>
+          <LinkIcon />
+          Copy link
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem onSelect={() => shareOnSocial(SHARE_LINKS.x)}>
+          <TwitterIcon />
+          Share on X
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem onSelect={() => shareOnSocial(SHARE_LINKS.facebook)}>
+          <Facebook />
+          Share on Facebook
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem onSelect={() => shareOnSocial(SHARE_LINKS.facebook)}>
+          <LinkedinIcon />
+          Share on Linkedin
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
 
 
 export const BlogDetail = () => {
@@ -99,10 +177,12 @@ export const BlogDetail = () => {
             {blog.commentsCount}
           </Button>
 
-          <Button variant="ghost" className="ms-auto">
-            <ShareIcon />
-            Share
-          </Button>
+          <ShareDropdown blogTitle={blog.title}>
+            <Button variant="ghost" className="ms-auto">
+              <ShareIcon />
+              Share
+            </Button>
+          </ShareDropdown>
         </div>
 
         <Separator />
