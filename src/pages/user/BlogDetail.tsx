@@ -187,7 +187,20 @@ export const BlogDetail = () => {
 
         <Separator />
 
-
+        <div className="my-8">
+            <AspectRatio 
+              ratio={21 / 9}
+              className="overflow-hidden rounded-xl bg-border"
+            >
+              <img 
+                src={blog.banner.url}
+                width={blog.banner.width}
+                height={blog.banner.height}
+                alt={blog.title}
+                className="w-full h-full object-cover"
+              />
+            </AspectRatio>
+        </div>
       </article>
     </Page>
   )
