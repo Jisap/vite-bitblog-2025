@@ -9,6 +9,8 @@ import refreshTokenLoader from "./loaders/refreshToken";
 import { RootLayout } from "@/components/layouts/Roots";
 import settingsAction from "./actions/user/settings";
 import homeLoader from "./loaders/user/homeLoader";
+import { Blogs } from "@/pages/user/Blogs";
+import userBlogLoader from "./loaders/user/userBlogLoader";
 
 
 const router = createBrowserRouter([
@@ -36,7 +38,9 @@ const router = createBrowserRouter([
         loader: homeLoader,
       },
       {
-        path: "blogs"
+        path: "blogs",
+        Component: Blogs,
+        loader: userBlogLoader
       },
       {
         path: "blogs/:slug",
