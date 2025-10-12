@@ -17,6 +17,7 @@ import { AdminLayout } from "@/components/layouts/AdminLayout";
 import blogDetailLoader from "./loaders/user/blogDetailLoader";
 import adminLoader from "./loaders/admin/adminLoader";
 import { RootErrorBoundary } from "@/pages/error/Root";
+import { Dashboard } from "@/pages/admin/Dashboard";
 
 
 const router = createBrowserRouter([
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "dashboard",
+        Component: Dashboard,
         handle: { breadcrumb: "Dashboard" }
       },
       {
