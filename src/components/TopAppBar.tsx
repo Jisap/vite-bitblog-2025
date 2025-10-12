@@ -6,6 +6,7 @@ import { ThemeToggle } from "./ThemeToggle"
 import { PlusIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { AppBreadcrumb } from "./AppBreadcrumb"
+import { TopBarProgress } from "./TopBarProgress"
 
 
 
@@ -31,6 +32,21 @@ export const TopAppBar = ({ className, ...props }: React.ComponentProps<"header"
 
         <AppBreadcrumb />
       </div>
+
+      <div className="flex items-center gap-2 ms-auto">
+        {location.pathname !== "/admin/blogs/create" && (
+          <Button asChild>
+            <Link to="/admin/blogs/create" viewTransition>
+              <PlusIcon className="h-6 w-6" />
+              <span>Write a blog</span>
+            </Link>
+          </Button>
+        )}
+
+        <ThemeToggle />
+      </div>
+
+      {isLoading && <TopBarProgress />}
     </header>
   )
 }
