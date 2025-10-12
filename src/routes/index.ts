@@ -12,8 +12,9 @@ import homeLoader from "./loaders/user/homeLoader";
 import { Blogs } from "@/pages/user/Blogs";
 import userBlogLoader from "./loaders/user/userBlogLoader";
 import { BlogDetail } from "@/pages/user/BlogDetail";
-import blogDetailLoader from "./loaders/user/BlogDetailLoader";
+
 import { AdminLayout } from "@/components/layouts/AdminLayout";
+import blogDetailLoader from "./loaders/user/blogDetailLoader";
 
 
 const router = createBrowserRouter([
@@ -58,21 +59,27 @@ const router = createBrowserRouter([
     children: [
       {
         path: "dashboard",
+        handle: { breadcrumb: "Dashboard" }
       },
       {
         path: "blogs",
+        handle: { breadcrumb: "Blogs" }
       },
       {
         path: "blogs/create",
+        handle: { breadcrumb: "Create a new Blog" }
       },
       {
         path: "blogs/:slug/edit",
+        handle: { breadcrumb: "Edit Blog" }
       },
       {
-        path: "comments"
+        path: "comments",
+        handle: { breadcrumb: "Comments" }
       },
       {
-        path: "users"
+        path: "users",
+        handle: { breadcrumb: "Users" }
       }
     ]
   },
