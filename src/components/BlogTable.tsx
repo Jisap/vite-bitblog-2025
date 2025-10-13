@@ -79,11 +79,16 @@ const MotionTableBody = motion.create(TableBody);
 
 const MotionTableRow = motion.create(TableRow);
 
-export const columns:ColumnDef<Blog>[] = [
+
+export const columns:ColumnDef<Blog>[] = [ // Cada objeto en este array define una columna
   {
-    accessorKey: "title",
-    header: "Blog",
-    cell: ({ row }) => {
+    accessorKey: "title", // De qué propiedad del objeto 'Blog' sacar los datos
+    header: "Blog", // El texto que aparecerá en la cabecera <th>
+    // La función `cell` es el corazón de la personalización.
+    // Recibe el contexto de la celda (incluida la fila completa con `row.original`)
+    // y nos permite devolver cualquier JSX que queramos para renderizar esa celda.
+    // Esto nos da control total sobre el aspecto de cada celda.
+    cell: ({ row }) => {  /* ... JSX para renderizar la celda ... */
 
       const blog = row.original;
 
@@ -139,16 +144,15 @@ export const columns:ColumnDef<Blog>[] = [
     id: "actions",
     enableHiding: true,
   }
-
 ]
 
 
-
-
-
+// Este componente es genérico gracias a <TData, TValue>.
+// Puede renderizar una tabla para cualquier tipo de datos (TData),
+// no solo para blogs, siempre que se le pasen las `columns` y `data` correctas.
 export const BlogTable = <TData, TValue>({ columns, data }: BlogTableProps<TData, TValue>) => {
   
-  const table = useReactTable({
+  const table = useReactTable({        // Le pasamos la data y las columnas y tanstack nos devuelve un objeto table
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -157,6 +161,7 @@ export const BlogTable = <TData, TValue>({ columns, data }: BlogTableProps<TData
   return (
     <Table>
       <TableHeader>
+        {/* Itera sobre las cabeceras para crear los <th>. */}
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id} className="border-none">
             {headerGroup.headers.map((header) => (
@@ -178,6 +183,7 @@ export const BlogTable = <TData, TValue>({ columns, data }: BlogTableProps<TData
         variants={tableBodyVariant}
       >
         {table.getRowModel().rows.length 
+          //  Itera sobre las filas para crear los <tr>.
           ? ( table.getRowModel().rows.map((row) => (
             <MotionTableRow
               key={row.id}
@@ -189,6 +195,9 @@ export const BlogTable = <TData, TValue>({ columns, data }: BlogTableProps<TData
                   key={cell.id}
                   className="px-4 py-3 min-h-16 max-w-max"
                 >
+                  {/* flexRender es la utilidad de TanStack Table que ejecuta y renderiza
+                      el JSX que definimos en las propiedades `header` y `cell` de nuestras columnas.
+                      Desacopla la lógica de la tabla de su presentación. */}
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}
@@ -208,4 +217,3 @@ export const BlogTable = <TData, TValue>({ columns, data }: BlogTableProps<TData
     </Table>
   )
 }
-
