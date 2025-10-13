@@ -5,7 +5,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { motion } from "motion/react";
-import { Link } from "react-router";
+import { Link, useFetcher } from "react-router";
 import  { Editor } from "@tiptap/react";
 import { formatDistanceToNowStrict } from "date-fns";
 import { cn, getUsername } from "@/lib/utils";
@@ -50,6 +50,7 @@ import { Loader2Icon, MoreHorizontalIcon } from "lucide-react";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Blog, User } from "@/types";
 import type { Variants } from "motion/react";
+import { clsx } from 'clsx';
 
 
 interface BlogTableProps<TData, TValue> {
@@ -78,6 +79,83 @@ const tableRowVariant: Variants = {
 const MotionTableBody = motion.create(TableBody);
 
 const MotionTableRow = motion.create(TableRow);
+
+
+const BlogActionDropdown = ({ blog }: { blog: Blog }) => {
+  
+  const fetcher = useFetcher();
+  
+  const isPublished = useMemo(() => blog.status === "published", [blog.status]);
+  
+  const isChanging = fetcher.state !== "idle";
+  const isUpdating = isChanging && fetcher.formMethod === "PUT"
+  const isDeleting = isChanging && fetcher.formMethod === "DELETE"
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="data-[state=open]:bg-muted text-muted-foreground flex size-8">
+          <span className="sr-only">
+            Open Menu
+          </span>
+          <MoreHorizontalIcon />
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align="end" className="w-32">
+        <DropdownMenuItem asChild>
+          <Link to={`/admin/blogs/${blog.slug}/edit`} viewTransition>
+            Edit
+          </Link>
+        </DropdownMenuItem>
+
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <DropdownMenuItem 
+              onSelect={(e) => e.preventDefault()}
+              disabled={isUpdating}
+            >
+              {isUpdating && <Loader2Icon className="animate-spin"/>}
+              {isPublished ? "Unpublish" : "Publish"}
+            </DropdownMenuItem>
+          </AlertDialogTrigger>
+
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                {isPublished ? "Unpublish Blog Post" : "Publish Blog Post"}
+              </AlertDialogTitle>
+
+              <AlertDialogDescription>
+                { isPublished 
+                  ? "This blog post will no longer be visible to readers. You can publish it again anytime. Are you sure to unpublish it ?"
+                  : "Once published this blog post will be visible to everyone. Are you sure to publish it ?"
+                }
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  const data = { status: isPublished ? "draft" : "published" };
+                
+                  fetcher.submit(data, {
+                    action: `/admin/blogs/${blog.slug}/edit`,
+                    method: "put",
+                    encType: "application/json"
+                  })
+                }}
+              >
+                {isPublished ? "Unpublish" : "Publish"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
 
 export const columns:ColumnDef<Blog>[] = [ // Cada objeto en este array define una columna
@@ -201,6 +279,7 @@ export const columns:ColumnDef<Blog>[] = [ // Cada objeto en este array define u
   {
     id: "actions",
     enableHiding: true,
+    cell: ({ row }) => <BlogActionDropdown blog={row.original} />
   }
 ]
 
