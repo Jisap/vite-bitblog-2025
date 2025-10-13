@@ -97,7 +97,7 @@ export const columns:ColumnDef<Blog>[] = [
       return (
         <Link 
           className="flex items-center gap-4 group"
-          to={`/blog/${blog.slug}`} 
+          to={`/blogs/${blog.slug}`} 
           viewTransition 
         >
           <figure className="shrink-0 w-[120px] h-[68px] rounded-md overflow-hidden">
@@ -109,6 +109,16 @@ export const columns:ColumnDef<Blog>[] = [
               className="w-full h-full object-cover" 
             />
           </figure>
+
+          <div>
+            <div className="font-semibold mb-1 truncate max-w-[50ch] group-hover:underline">
+              {blog.title}
+            </div>
+
+            <p className="text-muted-foreground line-clamp-2 max-w-[50ch] text-wrap">
+              {editor.getText()}
+            </p>
+          </div>
         </Link>
       )
     }
