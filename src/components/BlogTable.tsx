@@ -8,7 +8,7 @@ import { motion } from "motion/react";
 import { Link } from "react-router";
 import  { Editor } from "@tiptap/react";
 import { formatDistanceToNowStrict } from "date-fns";
-import { cn } from "@/lib/utils";
+import { cn, getUsername } from "@/lib/utils";
 import StarterKit from "@tiptap/starter-kit";
 import { 
   Table, 
@@ -83,7 +83,7 @@ const MotionTableRow = motion.create(TableRow);
 export const columns:ColumnDef<Blog>[] = [ // Cada objeto en este array define una columna
   {
     accessorKey: "title", // De qué propiedad del objeto 'Blog' sacar los datos
-    header: "Blog", // El texto que aparecerá en la cabecera <th>
+    header: "Blog",       // El texto que aparecerá en la cabecera <th>
     // La función `cell` es el corazón de la personalización.
     // Recibe el contexto de la celda (incluida la fila completa con `row.original`)
     // y nos permite devolver cualquier JSX que queramos para renderizar esa celda.
@@ -130,11 +130,51 @@ export const columns:ColumnDef<Blog>[] = [ // Cada objeto en este array define u
   },
   {
     accessorKey: "author",
-    header: "Author"
+    header: "Author",
+    cell: ({ row }) => {
+      const author = row.getValue("author") as User;
+    
+      return (
+        <div className="flex items-center gap-2">
+          <Avatar 
+            email={author.email} 
+            size="24" 
+            className="rounded-md"
+          />
+
+          <div>
+            {getUsername(author)}
+          </div>
+        </div>
+      )
+    }
   },
   {
     accessorKey: "status",
-    header: "Status"
+    header: "Status",
+    cell: ({ row }) => {
+      const status = row.getValue("status") as "draft" | "published";
+    
+      return (
+        <Badge
+          variant="outline"
+          className={cn(
+            "gap-1.5 capitalize",
+            status === "published"
+              ? "border-emerald-300 darl:border-emerald-800 bg-emerald-100/20 dark:ng-emerald-800/20"
+              : "border-amber-300 dark:border-amber-800 bg-amber-100/20 dark:bg-amber-800/20"
+          )}
+        >
+          <div className={cn(
+            "w-1.5 h-1.5 rounded-full",
+            status === "published"
+              ? "bg-emerald-500 dark:bg-emerald-600"
+              : "bg-amber-500 dark:bg-amber-600"
+          )}></div>
+            {status}
+        </Badge>
+      )
+    }
   },
   {
     accessorKey: "updatedAt",

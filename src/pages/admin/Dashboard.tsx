@@ -20,6 +20,7 @@ import { BlogTable, columns } from "@/components/BlogTable";
 export const Dashboard = () => {
 
   const loaderData = useLoaderData() as DashboardData;
+  console.log("loaderData", loaderData);
   const loggerInUser = useUser();
 
   return (
@@ -107,8 +108,8 @@ export const Dashboard = () => {
 
         <CardContent className="px-4">
           <BlogTable 
-            columns={columns} 
-            data={loaderData.blogs}
+            columns={columns}        // Esquema de contrucción de la tabla
+            data={loaderData.blogs}  // Datos del loader 
           />
         </CardContent>
       </Card>
