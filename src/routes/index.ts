@@ -18,6 +18,7 @@ import blogDetailLoader from "./loaders/user/blogDetailLoader";
 import adminLoader from "./loaders/admin/adminLoader";
 import { RootErrorBoundary } from "@/pages/error/Root";
 import { Dashboard } from "@/pages/admin/Dashboard";
+import dashboardLoader from "./loaders/admin/dashboardLoader";
 
 
 const router = createBrowserRouter([
@@ -65,6 +66,7 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         Component: Dashboard,
+        loader: dashboardLoader,
         handle: { breadcrumb: "Dashboard" }
       },
       {
