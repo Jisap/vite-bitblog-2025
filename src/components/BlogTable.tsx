@@ -179,6 +179,24 @@ export const columns:ColumnDef<Blog>[] = [ // Cada objeto en este array define u
   {
     accessorKey: "updatedAt",
     header: "Last Updated",
+    cell: ({ row }) => {
+      const updatedAt = row.getValue("updatedAt") as string;
+      const date = formatDistanceToNowStrict(updatedAt, { addSuffix: true });
+
+      return (
+        <Tooltip delayDuration={250}>
+          <TooltipTrigger>
+            {date}
+          </TooltipTrigger>
+          <TooltipContent>
+            {new Date(updatedAt).toLocaleString("en-US", {
+              dateStyle: "long",
+              timeStyle: "short",
+            })}
+          </TooltipContent>
+        </Tooltip>
+      )
+    }
   },
   {
     id: "actions",
