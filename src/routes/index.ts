@@ -19,6 +19,7 @@ import adminLoader from "./loaders/admin/adminLoader";
 import { RootErrorBoundary } from "@/pages/error/Root";
 import { Dashboard } from "@/pages/admin/Dashboard";
 import dashboardLoader from "./loaders/admin/dashboardLoader";
+import blogEditAction from "./actions/admin/blogEditAction";
 
 
 const router = createBrowserRouter([
@@ -79,6 +80,7 @@ const router = createBrowserRouter([
       },
       {
         path: "blogs/:slug/edit",
+        action: blogEditAction,
         handle: { breadcrumb: "Edit Blog" }
       },
       {

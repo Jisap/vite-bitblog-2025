@@ -138,12 +138,13 @@ const BlogActionDropdown = ({ blog }: { blog: Blog }) => {
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
-                  const data = { status: isPublished ? "draft" : "published" };
+                  const formData = new FormData();
+                  formData.append("status", isPublished ? "draft" : "published"); // Aquí se determina el nuevo estado. Al abrir el modal se determina cual es el estado actual y en consecuencia cual será el nuevo
                 
-                  fetcher.submit(data, {
-                    action: `/admin/blogs/${blog.slug}/edit`,
+                  fetcher.submit(formData, {
+                    action: `/admin/blogs/${blog.slug}/edit`, // Se envía al servidor el slug y estado de la publicación
                     method: "put",
-                    encType: "application/json"
+                    encType: "multipart/form-data"
                   })
                 }}
               >
