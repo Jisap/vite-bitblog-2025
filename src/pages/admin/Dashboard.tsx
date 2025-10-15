@@ -15,6 +15,7 @@ import { useUser } from "@/hooks/useUser";
 import { MessageSquare, MessageSquareIcon, TextIcon, UserRoundIcon, UsersRoundIcon } from "lucide-react";
 import type { DashboardData } from "@/routes/loaders/admin/dashboardLoader";
 import { BlogTable, columns } from "@/components/BlogTable";
+import { CommentCard } from "@/components/CommentCard";
 
 
 export const Dashboard = () => {
@@ -113,6 +114,51 @@ export const Dashboard = () => {
           />
         </CardContent>
       </Card>
+
+      <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-4">
+        <Card className="gap-4 py-4">
+          <CardHeader className="flex items-center gap-2.5 px-4">
+            <div className="bg-muted text-muted-foreground max-w-max p-2 rounded-lg">
+              <MessageSquareIcon size={18} />
+            </div>
+
+            <CardTitle className="font-normal text-lg">
+              Recent Comments
+            </CardTitle>
+
+            <CardAction className="ms-auto">
+              <Button
+                variant="link"
+                size="sm"
+                asChild
+              >
+                <Link to="/admin/comments">
+                  See all
+                </Link>
+              </Button>
+            </CardAction>
+          </CardHeader>
+
+          <CardContent className="px-4">
+            {loaderData.comments.map(({ _id, content, likesCount, user, blog, createdAt }, index, array ) => {
+              //console.log('Rendering comment:', { _id, content, likesCount, user, blog, createdAt });
+              return (
+                <Fragment key={_id}>
+                  <CommentCard
+                    content={content}
+                    likesCount={likesCount}
+                    user={user}
+                    blog={blog}
+                    createdAt={createdAt}
+                  />
+
+                  {index < array.length - 1 && <Separator className="my-1" />}
+                </Fragment>
+              )
+            })}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
