@@ -115,10 +115,10 @@ export const CommentCard = ({ content, likesCount, user, blog, createdAt }: Prop
 
             <Button 
               variant="ghost"
-              className=""
+              className="@3xl:invisible @xl:group-hover:visible @xl:group-focus-within:visible"
               asChild
             >
-              <Link to={`/blogs/${blog.slug}`}>
+              <Link to={`/blogs/${blog.slug}`} viewTransition>
                 <span className="@md:hidden">Go to blog</span>
                 <SquareArrowOutUpRightIcon  />
               </Link>
