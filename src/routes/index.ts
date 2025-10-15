@@ -20,6 +20,7 @@ import { RootErrorBoundary } from "@/pages/error/Root";
 import { Dashboard } from "@/pages/admin/Dashboard";
 import dashboardLoader from "./loaders/admin/dashboardLoader";
 import blogEditAction from "./actions/admin/blogEditAction";
+import blogsAction from "./actions/admin/blogsAction";
 
 
 const router = createBrowserRouter([
@@ -72,6 +73,7 @@ const router = createBrowserRouter([
       },
       {
         path: "blogs",
+        action: blogsAction,
         handle: { breadcrumb: "Blogs" }
       },
       {
