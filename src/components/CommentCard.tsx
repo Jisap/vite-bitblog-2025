@@ -23,10 +23,9 @@ type Props = {
 export const CommentCard = ({ content, likesCount, user, blog, createdAt }: Props) => {
   return (
     <div className="@container">
-      <p>Content: {content}</p>
-      <p>Likes: {likesCount}</p>
-      <p>User: {user?.username}</p>
-      <p>Created: {createdAt}</p>
+      <div className="group flex flex-col items-start gap-4 p-4 rounded-xl hover:bg-accent/25 @md:flex-row">
+        <Avatar />
+      </div>
     </div>
   )
 }
