@@ -73,7 +73,7 @@ export const UserCard = ({
         />
 
         <div>
-          {/* Badge "admin" */}
+          {/* firstName - Badge "admin" */}
           <div className="flex items-center gap-2">
             <h3 className="font-semibold">
               {firstName || lastName 
@@ -94,6 +94,7 @@ export const UserCard = ({
             {email}
           </p>
 
+          {/* join date + tooltip */}
           <div className="text-xs text-muted-foreground mt-2">
             <Tooltip delayDuration={250}>
               <TooltipTrigger>
@@ -110,6 +111,61 @@ export const UserCard = ({
             </Tooltip>
           </div>
         </div>
+
+        {/* El admin del blog puede eliminar a cualquier usuario */}
+        {loggedInUser?.username !== username && (
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="ms-auto -mt-1.5 xl:opacity-0 xl:group-hover:opacity-100"
+                aria-label="Delete user"
+              >
+                <Trash2Icon />
+              </Button> 
+
+            </AlertDialogTrigger>
+
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete User Account: { email } ?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to delete this user account? <br /> This
+                  action is permanent and cannot be undone. All user-related data
+                  will be permanently deleted.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                
+                <AlertDialogAction 
+                  onClick={() => {
+                    const submitPromise = fetcher.submit({userId}, {
+                      action: "/admin/users",
+                      method: "delete",
+                      encType: "application/json"
+                  })
+
+                  toast.promise(submitPromise, {
+                    loading: "Deleting User Account",
+                    success: () => {
+                      if(onUserDeleteSuccess) onUserDeleteSuccess();
+                      return {
+                        message: "User account deleted",
+                        description: "The user account has been removed from the system..",
+                      }
+                    },
+                    error: "Something went wrong, please try again."
+                  })
+                }}>
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
       </CardContent>
     </Card>
   )
