@@ -21,6 +21,7 @@ import { Dashboard } from "@/pages/admin/Dashboard";
 import dashboardLoader from "./loaders/admin/dashboardLoader";
 import blogEditAction from "./actions/admin/blogEditAction";
 import blogsAction from "./actions/admin/blogsAction";
+import allUserAction from "./actions/admin/allUserAction";
 
 
 const router = createBrowserRouter([
@@ -91,6 +92,7 @@ const router = createBrowserRouter([
       },
       {
         path: "users",
+        action: allUserAction,
         handle: { breadcrumb: "Users" }
       }
     ]
