@@ -31,14 +31,14 @@ export const BlogsAdmin = () => {
 
   const [currentOffset, setCurrentOffset] = useState(0);
   const [currentLimit, setCurrentLimit] = useState(limit);
-  const [paginateTo, setPaginateTo] = useState<PaginateTo>();
+  const [paginateTo, setPaginateTo] = useState<PaginateTo>();              // El estado paginateTo se usa para mostrar el icono de carga (<Loader2Icon />) únicamente en el botón que acaba de ser pulsado, mientras los demás botones permanecen sin cambios.
 
-  const isPaginating = fetcher.state === "loading"           // Sirve pra mostrar un icono de carga en los botones
+  const isPaginating = fetcher.state === "loading"                         // Sirve pra mostrar un icono de carga en los botones
     && fetcher.formMethod === "GET"
     && fetcher.formAction === "/admin/blogs";
 
-  const showingFrom = offset + 1;                            // Muestra el número de la primera página
-  const showingTo = total <= limit ? total : offset + limit; // Muestra el número de la última página
+  const showingFrom = offset + 1;                                          // Muestra el número de la primera página
+  const showingTo = total <= limit ? total : offset + limit;               // Muestra el número de la última página
 
   useEffect(() => {
     const searchParams = new URLSearchParams()
@@ -80,7 +80,7 @@ export const BlogsAdmin = () => {
 
                 const inLastPage = currentPage === totalPage;
 
-                if(inLastPage && offset !== 0){
+                if(inLastPage && offset !== 0){ // Si estoy en la última página y el offset no es 0, establecemos el offset para mostrar el último blog
                   setCurrentOffset(total - (total % limitN || limitN));
                 }
               
@@ -121,6 +121,57 @@ export const BlogsAdmin = () => {
               {isPaginating && paginateTo === "first"
                 ? ( <Loader2Icon className="animate-spin" /> )
                 : ( <ChevronsLeftIcon /> )
+              }
+            </Button>
+
+            <Button
+              variant="outline"
+              className="size-8 p-0"
+              disabled={currentPage <= 1}
+              aria-label="Go to previous page"
+              onClick={() => {
+                setCurrentOffset(Math.max(0, offset - limit)); // pag 3 = offset 20 - limit 10 = 10 (pag 2)
+                // Calcula el offset para la página anterior. `Math.max` se usa como salvaguarda
+                // para asegurar que el offset nunca sea un número negativo, incluso si ya
+                // estamos en la primera página.
+                setPaginateTo("previous");
+              }}
+            >
+              {isPaginating && paginateTo === "previous"
+                ? (<Loader2Icon className="animate-spin" />)
+                : (<ChevronLeftIcon />)
+              }
+            </Button>
+
+            <Button
+              variant="outline"
+              className="size-8 p-0"
+              disabled={currentPage >= totalPage}
+              aria-label="Go to next page"
+              onClick={() => {
+                setCurrentOffset(offset + limit);
+                setPaginateTo("next");
+              }}
+            >
+              {isPaginating && paginateTo === "previous"
+                ? (<Loader2Icon className="animate-spin" />)
+                : (<ChevronRightIcon />)
+              }
+            </Button>
+
+            <Button
+              variant="outline"
+              className="size-8 p-0"
+              disabled={currentPage >= totalPage}
+              aria-label="Go to last page"
+              onClick={() => {
+                setCurrentOffset(total - (total % limit || limit)); // total 35, limit 10 -> 35 % 10 = 5 -> 35 - 5 = 30 (offset) 
+                setPaginateTo("last");
+              }}
+            >
+              {isPaginating && paginateTo === "last"
+                ? (<Loader2Icon className="animate-spin" />)
+                : (<ChevronsRightIcon />)
               }
             </Button>
           </div>
