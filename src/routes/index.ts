@@ -22,6 +22,7 @@ import dashboardLoader from "./loaders/admin/dashboardLoader";
 import blogEditAction from "./actions/admin/blogEditAction";
 import blogsAction from "./actions/admin/blogsAction";
 import allUserAction from "./actions/admin/allUserAction";
+import { BlogsAdmin } from "@/pages/admin/Blogs";
 
 
 const router = createBrowserRouter([
@@ -74,6 +75,7 @@ const router = createBrowserRouter([
       },
       {
         path: "blogs",
+        Component: BlogsAdmin,
         action: blogsAction,
         handle: { breadcrumb: "Blogs" }
       },
