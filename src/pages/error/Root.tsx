@@ -8,7 +8,10 @@ export const RootErrorBoundary = () => {
   const location = useLocation(); // ruta donde se produjo el error
 
   if (isRouteErrorResponse(error)) {
-    const tokenExpired = error.status === 401 && error.data.includes("token expired");
+    // `error.data` es el objeto que lanzamos desde el loader: { message: "..." }
+    // Accedemos a la propiedad `message` para comprobar el texto del error.
+    // Usamos `?.` (optional chaining) para evitar errores si `data` o `message` no existen.
+    const tokenExpired = error.status === 401 && typeof error.data?.message === 'string' && error.data.message.includes("token expired");
 
     if (tokenExpired) {
       // si el token ha expirado, redirige al usuario a la página de refresco de token
@@ -21,9 +24,10 @@ export const RootErrorBoundary = () => {
         <h1 className="text-4xl font-semibold">
           {error.status} {error.statusText}
         </h1>
-
+        
+        {/* Mostramos el mensaje de error que viene en el objeto `data` */}
         <p className="text-muted-foreground max-w-[60ch] text-center text-blanced">
-          {error.data}
+          {error.data?.message || "An unexpected error occurred."}
         </p>
 
         <Button onClick={() => navigate(-1)}>

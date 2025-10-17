@@ -23,6 +23,8 @@ import blogEditAction from "./actions/admin/blogEditAction";
 import blogsAction from "./actions/admin/blogsAction";
 import allUserAction from "./actions/admin/allUserAction";
 import { BlogsAdmin } from "@/pages/admin/Blogs";
+import { all } from "axios";
+import allBlogsLoader from "./loaders/admin/allBlogsLoader";
 
 
 const router = createBrowserRouter([
@@ -76,6 +78,7 @@ const router = createBrowserRouter([
       {
         path: "blogs",
         Component: BlogsAdmin,
+        loader: allBlogsLoader,
         action: blogsAction,
         handle: { breadcrumb: "Blogs" }
       },

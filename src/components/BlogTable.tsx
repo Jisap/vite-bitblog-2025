@@ -80,7 +80,7 @@ const MotionTableBody = motion.create(TableBody);
 
 const MotionTableRow = motion.create(TableRow);
 
-
+// Componente de acciones para cada blog
 const BlogActionDropdown = ({ blog }: { blog: Blog }) => {
   
   const fetcher = useFetcher();
@@ -204,6 +204,7 @@ const BlogActionDropdown = ({ blog }: { blog: Blog }) => {
 }
 
 
+// Componente de definición de las columnas de la tabla
 export const columns:ColumnDef<Blog>[] = [ // Cada objeto en este array define una columna
   {
     accessorKey: "title", // De qué propiedad del objeto 'Blog' sacar los datos

@@ -53,19 +53,17 @@ const dashboardLoader: LoaderFunction = async () => {
 
   } catch (error) {
     if (error instanceof AxiosError) {
-      // Si el error es 401 (No autorizado), significa que el token no es válido.
-      // Limpiamos cualquier dato de sesión residual y redirigimos al login.
-      if (error.response?.status === 401) {
-        localStorage.removeItem("user");
-        localStorage.removeItem("accessToken");
-        return redirect("/login");
-      }
-
+      // Si es un error de Axios, lo transformamos en una `Response`
+      // para que el ErrorBoundary pueda leer el status y los datos.
       throw data({ message: error.response?.data?.message || error.message }, {
         status: error.response?.status || error.status,
         statusText: error.response?.statusText || "Error"
       });
     }
+
+    // Para cualquier otro tipo de error (de red, de código, etc.),
+    // lo relanzamos para que el ErrorBoundary lo capture como un `Error` estándar.
+    throw error;
   }
 }
 
