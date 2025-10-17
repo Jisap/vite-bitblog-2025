@@ -26,14 +26,28 @@ export const CommentsAdmin = () => {
   const [allComments, setAllComments] = useState<Comment[]>([]);
 
   const handleMore = useCallback((offset: number) => {
-    
-  },[]);
+    const searchParams = new URLSearchParams();    // Crea un objeto de parámetros de búsqueda
+    searchParams.set("offset", offset.toString()); // Agrega el parámetro offset al objeto de parámetros
+
+    fetcher.submit(searchParams.toString());       // Envía el objeto de parámetros al fetcher
+  },[fetcher]);
 
   const hasMoreComments = offset + limit < total;
   const isLoading = fetcher.state === "loading" && fetcher.formAction === "/admin/comments";
 
   useEffect(() => {
-    setAllComments((prevComments) => [...prevComments, ...comments]);
+    // Si es la primera carga (loaderData), establecer los comentarios iniciales
+    if (!fetcherData) {
+      setAllComments(comments);
+    } else {
+      // Si hay datos del fetcher, añadir solo comentarios nuevos que no existan
+      setAllComments((prevComments) => {
+        const existingIds = new Set(prevComments.map(c => c._id));
+        const newComments = comments.filter(c => !existingIds.has(c._id));
+        return [...prevComments, ...newComments];
+      });
+    }
+  
   },[comments])
 
   return (
@@ -50,8 +64,27 @@ export const CommentsAdmin = () => {
               blog={blog}
               createdAt={createdAt} 
             />
+
+            {index < array.length - 1 && <Separator className="my-1" />}
           </Fragment>
         ))}
+      </div>
+
+      <div className="flex justify-center my-4">
+        {hasMoreComments 
+          ? (
+            <Button
+              variant="outline"
+              onClick={() => handleMore.bind(null, offset + limit)}
+              disabled={isLoading}
+            >
+              Load more
+              {isLoading && <Loader2Icon className="animate-spin" />}
+            </Button>
+          ) : (
+            <p className="text-muted-foreground text-sm">No more comments</p>
+          )
+        }
       </div>
       
     </div>

@@ -24,8 +24,8 @@ const allCommentLoader: LoaderFunction = async ({ request }) => {
   try {
 
     const { data } = await bitblogApi.get(`/comments`, {
-      params: Object.fromEntries(url.searchParams.entries()),                        // Obtiene los parámetros de la URL y los pasa como parámetros a la petición.
-      headers: { Authorization: `Bearer ${accessToken}` },                           // Añade el accessToken como header a la petición.
+      params: Object.fromEntries(url.searchParams.entries()),                         // Obtiene los parámetros de la URL y los pasa como parámetros a la petición.
+      headers: { Authorization: `Bearer ${accessToken}` },                            // Añade el accessToken como header a la petición.
     });
 
     return data;
