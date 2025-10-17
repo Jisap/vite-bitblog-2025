@@ -25,6 +25,9 @@ import allUserAction from "./actions/admin/allUserAction";
 import { BlogsAdmin } from "@/pages/admin/Blogs";
 import { all } from "axios";
 import allBlogsLoader from "./loaders/admin/allBlogsLoader";
+import allCommentLoader from "./loaders/admin/allCommentLoader";
+import { CommentsAdmin } from "@/pages/admin/Comments";
+
 
 
 const router = createBrowserRouter([
@@ -93,6 +96,8 @@ const router = createBrowserRouter([
       },
       {
         path: "comments",
+        Component: CommentsAdmin,
+        loader: allCommentLoader,
         handle: { breadcrumb: "Comments" }
       },
       {
