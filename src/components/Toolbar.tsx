@@ -102,6 +102,7 @@ export const Toolbar = ({
       )}
       {...props}
     >
+      {/* Undo */}
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
@@ -118,6 +119,27 @@ export const Toolbar = ({
           Undo
           <div className='text-black/60'>
             CTRL+Z
+          </div>
+        </TooltipContent>
+      </Tooltip>
+
+      {/* Redo */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => editor.commands.redo()}
+            disabled={!editor.can().redo()}
+          >
+            <Redo2Icon />
+          </Button>
+        </TooltipTrigger>
+
+        <TooltipContent side="bottom">
+          Redo
+          <div className='text-black/60'>
+            CTRL+Shift
           </div>
         </TooltipContent>
       </Tooltip>
