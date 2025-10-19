@@ -8,6 +8,7 @@ import { Toggle } from './ui/toggle'
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -117,7 +118,7 @@ export const Toolbar = ({
 
         <TooltipContent side="bottom">
           Undo
-          <div className='text-black/60'>
+          <div className='opacity-70'>
             CTRL+Z
           </div>
         </TooltipContent>
@@ -138,11 +139,58 @@ export const Toolbar = ({
 
         <TooltipContent side="bottom">
           Redo
-          <div className='text-black/60'>
-            CTRL+Shift
+          <div className='opacity-70'>
+            CTRL+Shift+Z
           </div>
         </TooltipContent>
       </Tooltip>
+
+      <Separator orientation="vertical" className='data-[orientation=vertical]:h-4' />
+
+      <DropdownMenu>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DropdownMenuTrigger>
+              <Button
+                className='!px-2 gap-0'
+                variant={isAnyHeadingActive ? "secondary" : "ghost"}
+              >
+                {getActiveIcon()}
+
+                <ChevronDownIcon className='text-muted-foreground' />
+              </Button>
+            </DropdownMenuTrigger>
+          </TooltipTrigger>
+
+          <TooltipContent
+            side="bottom"
+          >
+            Heading
+          </TooltipContent>
+        </Tooltip>
+
+        <DropdownMenuContent
+          align="start"
+          onCloseAutoFocus={(event) => event.preventDefault()}
+        >
+          <DropdownMenuGroup>
+            <DropdownMenuLabel className='text-muted-foreground'>
+              Heading
+            </DropdownMenuLabel>
+
+            {HEADINGS.map(({ label, Icon, level }) => (
+              <DropdownMenuItem
+                key={`heding-${level}`}
+                onClick={() => editor.chain().focus().toggleHeading({ level }).run()}
+                disabled={!editor.can().chain().focus().toggleHeading({ level }).run()}
+              >
+                <Icon />
+                {label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   )
 }
