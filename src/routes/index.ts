@@ -29,6 +29,8 @@ import { CommentsAdmin } from "@/pages/admin/Comments";
 
 import allUserLoader from "./loaders/admin/allUserLoader";
 import { UsersAdmin } from "@/pages/admin/Users";
+import { BlogCreate } from "@/pages/admin/BlogCreate";
+
 
 
 
@@ -90,6 +92,7 @@ const router = createBrowserRouter([
       },
       {
         path: "blogs/create",
+        Component: BlogCreate,
         handle: { breadcrumb: "Create a new Blog" }
       },
       {
