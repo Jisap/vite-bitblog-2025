@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,9 +8,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Button } from "./ui/button";
+
 import { useUser } from "@/hooks/useUser";
-import { ChevronsUpDownIcon, LayoutDashboardIcon, LogOutIcon, SettingsIcon } from "lucide-react";
+import { ChevronsUpDownIcon, LogOutIcon, SettingsIcon } from "lucide-react";
 import Avatar from "react-avatar"
 import { useLogout } from "@/hooks/useLogout";
 import { SettingsDialog } from "./SettingsDialog";

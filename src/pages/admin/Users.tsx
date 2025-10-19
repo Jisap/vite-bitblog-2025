@@ -1,14 +1,9 @@
-import { BlogTable, columns } from "@/components/BlogTable";
+
 import { Button } from "@/components/ui/button";
 import { useEffect, useState, Fragment, useMemo, useCallback } from "react";
 import { useFetcher, useLoaderData } from "react-router";
-import { Separator } from "@/components/ui/separator";
-import { CommentCard } from "@/components/CommentCard";
-import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon, Loader2Icon } from "lucide-react";
-
+import { Loader2Icon } from "lucide-react";
 import type { User, PaginatedResponse } from '../../types/index';
-import { Label } from "@/components/ui/label";
-import { set } from "zod";
 import { UserCard } from "@/components/UserCard";
 import { useUser } from "@/hooks/useUser";
 
@@ -70,10 +65,9 @@ export const UsersAdmin = () => {
               createdAt={createdAt} 
               loggedInUser={loggedInUser}
               onUserDeleteSuccess={() => {
-                setAllUsers((prevUsers) =>
-                  prevUsers.filter((user) => user._id !== _id)
-                );
-              }}
+              setAllUsers((prevUsers) =>
+                prevUsers.filter((user) => user._id !== _id)
+              )}}
             />
         ))}
       </div>
@@ -83,7 +77,7 @@ export const UsersAdmin = () => {
           ? (
             <Button
               variant="outline"
-              onClick={() => handleMore.bind(null, offset + limit)}
+              onClick={() => handleMore(offset + limit)}
               disabled={isLoading}
             >
               Load more

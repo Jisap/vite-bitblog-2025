@@ -2,7 +2,7 @@ import { bitblogApi } from "@/api";
 import { data, redirect } from "react-router";
 import type { LoaderFunction } from "react-router";
 import { AxiosError } from "axios";
-import type { PaginatedResponse, Blog, Comment, User } from "@/types";
+import type { Blog, Comment, User } from "@/types";
 
 
 

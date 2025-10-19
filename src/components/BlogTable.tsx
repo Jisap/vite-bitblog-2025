@@ -263,6 +263,7 @@ export const columns:ColumnDef<Blog>[] = [ // Cada objeto en este array define u
         <div className="flex items-center gap-2">
           <Avatar 
             email={author.email} 
+            name={getUsername(author)}
             size="24" 
             className="rounded-md"
           />

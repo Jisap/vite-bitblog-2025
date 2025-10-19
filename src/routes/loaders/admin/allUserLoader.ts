@@ -2,7 +2,7 @@ import { bitblogApi } from "@/api";
 import { data, redirect } from "react-router";
 import type { LoaderFunction } from "react-router";
 import { AxiosError } from "axios";
-import type { PaginatedResponse, Blog, Comment, User } from "@/types";
+import type { Blog, Comment, User } from "@/types";
 
 
 
@@ -24,7 +24,7 @@ const allUserLoader: LoaderFunction = async ({ request }) => {
   try {
 
     const { data } = await bitblogApi.get(`/users`, {
-      params: Object.fromEntries(url.searchParams.entries()),                         // Obtiene los parámetros de la URL y los pasa como parámetros a la petición.
+      params: { ...Object.fromEntries(url.searchParams.entries()), limit: 2 },        // Obtiene los parámetros de la URL y los pasa como parámetros a la petición.
       headers: { Authorization: `Bearer ${accessToken}` },                            // Añade el accessToken como header a la petición.
     });
 
