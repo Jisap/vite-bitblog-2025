@@ -116,7 +116,7 @@ export const Toolbar = ({
           </Button>
         </TooltipTrigger>
 
-        <TooltipContent side="bottom">
+        <TooltipContent side="bottom" className='text-center'>
           Undo
           <div className='opacity-70'>
             CTRL+Z
@@ -137,7 +137,7 @@ export const Toolbar = ({
           </Button>
         </TooltipTrigger>
 
-        <TooltipContent side="bottom">
+        <TooltipContent side="bottom" className='text-center'>
           Redo
           <div className='opacity-70'>
             CTRL+Shift+Z
@@ -147,6 +147,7 @@ export const Toolbar = ({
 
       <Separator orientation="vertical" className='data-[orientation=vertical]:h-4' />
 
+      {/* DropdownMenu para seleccionar el nivel de encabezado */}
       <DropdownMenu>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -191,6 +192,25 @@ export const Toolbar = ({
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {/* Toggle lista */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle 
+            aria-label="Toggle bullet list"
+            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            disabled={!editor.can().chain().focus().toggleBulletList().run()}
+            pressed={editor.isActive("bulletList")}
+            className="aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
+          >
+            <ListIcon />
+          </Toggle>
+        </TooltipTrigger>
+
+        <TooltipContent side="bottom">
+          Bullet list
+        </TooltipContent>
+      </Tooltip>
     </div>
   )
 }
