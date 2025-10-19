@@ -23,10 +23,13 @@ import blogEditAction from "./actions/admin/blogEditAction";
 import blogsAction from "./actions/admin/blogsAction";
 import allUserAction from "./actions/admin/allUserAction";
 import { BlogsAdmin } from "@/pages/admin/Blogs";
-import { all } from "axios";
 import allBlogsLoader from "./loaders/admin/allBlogsLoader";
 import allCommentLoader from "./loaders/admin/allCommentLoader";
 import { CommentsAdmin } from "@/pages/admin/Comments";
+
+import allUserLoader from "./loaders/admin/allUserLoader";
+import { UsersAdmin } from "@/pages/admin/Users";
+
 
 
 
@@ -102,6 +105,8 @@ const router = createBrowserRouter([
       },
       {
         path: "users",
+        Component: UsersAdmin,
+        loader: allUserLoader,
         action: allUserAction,
         handle: { breadcrumb: "Users" }
       }
