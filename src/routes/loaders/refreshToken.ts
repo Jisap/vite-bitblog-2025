@@ -28,10 +28,13 @@ const refreshTokenLoader: LoaderFunction = async ({ request }) => {
     return redirect(redirectUri);                                                    // Redirige al usuario a la página que originalmente quería visitar.
   } catch (error) {
     if(error instanceof AxiosError) {
-      
-      const tokenExpired = error.response?.data?.message?.includes("token expired"); // Comprueba si el error se debe a que el refreshToken ha expirado.
+      // Si el refresco de token falla con 400 (Bad Request) o 401 (Unauthorized),
+      // asumimos que el refreshToken ha expirado o es inválido.
+      // Esto cubre tanto los errores 401 del controlador como un posible 400
+      // de un middleware que se ejecute antes.
+      const isAuthError = error.response?.status === 400 || error.response?.status === 401;
 
-      if(tokenExpired) {
+      if(isAuthError) {
         // Si el refreshToken expiró, la sesión del usuario ha terminado.
         // Limpiamos el localStorage y lo enviamos a la página de login.
         localStorage.removeItem("user");

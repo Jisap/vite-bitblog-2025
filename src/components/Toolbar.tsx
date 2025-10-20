@@ -211,6 +211,25 @@ export const Toolbar = ({
           Bullet list
         </TooltipContent>
       </Tooltip>
+
+      {/* Toggle lista */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle 
+            aria-label="Toggle ordered list"
+            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            disabled={!editor.can().chain().focus().toggleOrderedList().run()}
+            pressed={editor.isActive("orderedList")}
+            className="aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
+          >
+            <ListOrderedIcon />
+          </Toggle>
+        </TooltipTrigger>
+
+        <TooltipContent side="bottom">
+          Ordered list
+        </TooltipContent>
+      </Tooltip>
     </div>
   )
 }

@@ -11,12 +11,18 @@ export const RootErrorBoundary = () => {
     // `error.data` es el objeto que lanzamos desde el loader: { message: "..." }
     // Accedemos a la propiedad `message` para comprobar el texto del error.
     // Usamos `?.` (optional chaining) para evitar errores si `data` o `message` no existen.
-    const tokenExpired = error.status === 401 && typeof error.data?.message === 'string' && error.data.message.includes("token expired");
+    const isAccessTokenExpired = error.status === 401 && typeof error.data?.message === 'string' && error.data.message.includes("token expired");
 
-    if (tokenExpired) {
+    if (isAccessTokenExpired) {
       // si el token ha expirado, redirige al usuario a la página de refresco de token
       // y despues de refrescarlo, redirige al usuario a la página original.
       return <Navigate to={`/refresh-token?redirect=${location.pathname}`} />
+    }
+
+    // Si el error viene del refreshTokenLoader (status 400 o 401), la sesión ha terminado.
+    if (location.pathname.startsWith('/refresh-token') && (error.status === 400 || error.status === 401)) {
+      // No es necesario limpiar localStorage aquí porque el loader ya lo hizo.
+      return <Navigate to="/login" replace />;
     }
 
     return (
