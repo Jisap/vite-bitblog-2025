@@ -329,7 +329,27 @@ export const Toolbar = ({
 
         <TooltipContent side="bottom" className='text-center'>
           Strike
-          <div className='opacity-70'>Ctrl+I</div>
+          <div className='opacity-70'>Ctrl+Shift+S</div>
+        </TooltipContent>
+      </Tooltip>
+
+      {/* Toggle code */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            aria-label="Toggle code"
+            onClick={() => editor.chain().focus().toggleCode().run()}
+            disabled={!editor.can().chain().focus().toggleCode().run()}
+            pressed={editor.isActive("code")}
+            className="aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
+          >
+            <CodeIcon />
+          </Toggle>
+        </TooltipTrigger>
+
+        <TooltipContent side="bottom" className='text-center'>
+          Code
+          <div className='opacity-70'>Ctrl+E</div>
         </TooltipContent>
       </Tooltip>
     </div>
