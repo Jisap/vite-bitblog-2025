@@ -292,6 +292,26 @@ export const Toolbar = ({
           <div className='opacity-70'>Ctrl+B</div>
         </TooltipContent>
       </Tooltip>
+
+      {/* Toggle Bold */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            aria-label="Toggle italic"
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            disabled={!editor.can().chain().focus().toggleItalic().run()}
+            pressed={editor.isActive("italic")}
+            className="aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
+          >
+            <ItalicIcon />
+          </Toggle>
+        </TooltipTrigger>
+
+        <TooltipContent side="bottom" className='text-center'>
+          Italic
+          <div className='opacity-70'>Ctrl+I</div>
+        </TooltipContent>
+      </Tooltip>
     </div>
   )
 }
