@@ -250,6 +250,26 @@ export const Toolbar = ({
           <div className='opacity-70'>Ctrl+Shift+B</div>
         </TooltipContent>
       </Tooltip>
+
+      {/* Toggle code block */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            aria-label="Toggle code block"
+            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+            disabled={!editor.can().chain().focus().toggleCodeBlock().run()}
+            pressed={editor.isActive("codeblock")}
+            className="aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
+          >
+            <CodeSquareIcon />
+          </Toggle>
+        </TooltipTrigger>
+
+        <TooltipContent side="bottom" className='text-center'>
+          CodeBlock
+          <div className='opacity-70'>Ctrl+Alt+C</div>
+        </TooltipContent>
+      </Tooltip>
     </div>
   )
 }
