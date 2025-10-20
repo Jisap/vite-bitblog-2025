@@ -1,5 +1,4 @@
 import { BlogForm } from "@/components/BlogForm";
-import { cn } from "@/lib/utils"
 import { useFetcher, useLoaderData } from "react-router"
 import { toast } from "sonner"
 import type { Blog } from "@/types";
@@ -23,7 +22,6 @@ export const BlogEdit = () => {
           status: blog.status
         }}
         onSubmit={({ banner_image, title, content }, status) => {
-          if (!banner_image) return;
 
           const formData = new FormData();
           

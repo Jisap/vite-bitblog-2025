@@ -31,6 +31,7 @@ import allUserLoader from "./loaders/admin/allUserLoader";
 import { UsersAdmin } from "@/pages/admin/Users";
 import { BlogCreate } from "@/pages/admin/BlogCreate";
 import blogCreateAction from "./actions/admin/blogCreateAction";
+import { BlogEdit } from "@/pages/admin/BlogEdit";
 
 
 
@@ -99,6 +100,8 @@ const router = createBrowserRouter([
       },
       {
         path: "blogs/:slug/edit",
+        Component: BlogEdit,
+        loader: blogDetailLoader,
         action: blogEditAction,
         handle: { breadcrumb: "Edit Blog" }
       },
