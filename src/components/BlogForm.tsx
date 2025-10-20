@@ -153,6 +153,29 @@ export const BlogForm: React.FC<BlogFormProps> = ({ defaultValue, onSubmit }) =>
           content={data.content}
         />
       </div>
+
+      <div className="flex justify-end items-center gap-2 sticky bottom-0 py-4 bg-background isolate after:absolute after:bottom-full after:w-full after:h-10 after:bg-gradient-to-t after:from-background after:to-transparent after:z-10 after:pointer-events-none">
+        <Button
+          variant="outline"
+          onClick={() => onSubmit({
+            banner_image: data.banner_image,
+            title: data.title,
+            content: data.content,
+          }, "draft")}   
+        >
+          Save as draft
+        </Button>
+
+        <Button
+          onClick={() => onSubmit({
+            banner_image: data.banner_image,
+            title: data.title,
+            content: data.content,
+          }, "published")}   
+        >
+          {status === "draft" ? "Publish" : "Save changes"}
+        </Button>
+      </div>
     </div>
   )
 }

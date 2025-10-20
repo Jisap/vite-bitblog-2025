@@ -30,6 +30,7 @@ import { CommentsAdmin } from "@/pages/admin/Comments";
 import allUserLoader from "./loaders/admin/allUserLoader";
 import { UsersAdmin } from "@/pages/admin/Users";
 import { BlogCreate } from "@/pages/admin/BlogCreate";
+import blogCreateAction from "./actions/admin/blogCreateAction";
 
 
 
@@ -93,6 +94,7 @@ const router = createBrowserRouter([
       {
         path: "blogs/create",
         Component: BlogCreate,
+        action: blogCreateAction,
         handle: { breadcrumb: "Create a new Blog" }
       },
       {
