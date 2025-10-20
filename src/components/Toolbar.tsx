@@ -293,7 +293,7 @@ export const Toolbar = ({
         </TooltipContent>
       </Tooltip>
 
-      {/* Toggle Bold */}
+      {/* Toggle Italic */}
       <Tooltip>
         <TooltipTrigger asChild>
           <Toggle
@@ -309,6 +309,26 @@ export const Toolbar = ({
 
         <TooltipContent side="bottom" className='text-center'>
           Italic
+          <div className='opacity-70'>Ctrl+I</div>
+        </TooltipContent>
+      </Tooltip>
+
+      {/* Toggle strikethrough */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            aria-label="Toggle strikethrough"
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            disabled={!editor.can().chain().focus().toggleStrike().run()}
+            pressed={editor.isActive("strike")}
+            className="aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
+          >
+            <StrikethroughIcon />
+          </Toggle>
+        </TooltipTrigger>
+
+        <TooltipContent side="bottom" className='text-center'>
+          Strike
           <div className='opacity-70'>Ctrl+I</div>
         </TooltipContent>
       </Tooltip>
