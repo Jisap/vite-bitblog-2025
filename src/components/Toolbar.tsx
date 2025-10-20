@@ -270,6 +270,28 @@ export const Toolbar = ({
           <div className='opacity-70'>Ctrl+Alt+C</div>
         </TooltipContent>
       </Tooltip>
+
+      <Separator orientation="vertical" className='data-[orientation=vertical]:h-4' />
+
+      {/* Toggle Bold */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            aria-label="Toggle bold"
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            disabled={!editor.can().chain().focus().toggleBold().run()}
+            pressed={editor.isActive("bold")}
+            className="aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
+          >
+            <BoldIcon />
+          </Toggle>
+        </TooltipTrigger>
+
+        <TooltipContent side="bottom" className='text-center'>
+          Bold
+          <div className='opacity-70'>Ctrl+B</div>
+        </TooltipContent>
+      </Tooltip>
     </div>
   )
 }
