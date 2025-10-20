@@ -150,8 +150,8 @@ export const Toolbar = ({
       {/* DropdownMenu para seleccionar el nivel de encabezado */}
       <DropdownMenu>
         <Tooltip>
-          <TooltipTrigger asChild>
-            <DropdownMenuTrigger>
+          <TooltipTrigger asChild> 
+            <DropdownMenuTrigger asChild>
               <Button
                 className='!px-2 gap-0'
                 variant={isAnyHeadingActive ? "secondary" : "ghost"}
@@ -212,7 +212,7 @@ export const Toolbar = ({
         </TooltipContent>
       </Tooltip>
 
-      {/* Toggle lista */}
+      {/* Toggle ordered list */}
       <Tooltip>
         <TooltipTrigger asChild>
           <Toggle 
@@ -230,7 +230,26 @@ export const Toolbar = ({
           Ordered list
         </TooltipContent>
       </Tooltip>
+
+      {/* Toggle ordered list */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle 
+            aria-label="Toggle blockquote"
+            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            disabled={!editor.can().chain().focus().toggleBlockquote().run()}
+            pressed={editor.isActive("blogquote")}
+            className="aria-pressed:bg-secondary aria-pressed:text-secondary-foreground"
+          >
+            <TextQuoteIcon />
+          </Toggle>
+        </TooltipTrigger>
+
+        <TooltipContent side="bottom" className='text-center'>
+          Blockquote
+          <div className='opacity-70'>Ctrl+Shift+B</div>
+        </TooltipContent>
+      </Tooltip>
     </div>
   )
 }
-
